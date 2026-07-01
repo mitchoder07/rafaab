@@ -43,7 +43,7 @@ export function ProductRail({
   };
 
   return (
-    <section className="mx-auto max-w-7xl px-3 sm:px-6">
+    <section className="mx-auto max-w-7xl px-4 sm:px-6">
       <div className="mb-3 flex items-end justify-between">
         <h2 className="flex items-center gap-2 text-xl font-extrabold sm:text-2xl">
           {accent && <span className="h-6 w-1.5 rounded-full" style={{ background: accent }} />}
