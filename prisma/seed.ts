@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import { db } from "../src/lib/db";
 import { hashPassword } from "../src/lib/auth";
+import path from "path";
 
 // Load image map produced by the image-fetch subagent
 const imageMap: Record<string, string[]> = require("../seed-data/images.json");
@@ -1000,8 +1001,9 @@ async function main() {
 
   // Save hero images to a small meta file the API can read
   const fs = require("fs");
+  const metaPath = path.join(process.cwd(), "seed-data", "meta.json");
   fs.writeFileSync(
-    "/home/z/my-project/seed-data/meta.json",
+    metaPath,
     JSON.stringify({ hero: heroImages }, null, 2)
   );
 

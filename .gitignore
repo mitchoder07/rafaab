@@ -10,10 +10,12 @@
 # production
 /build
 
-# database
+# database (ignore .db files but keep the db/ folder with a .gitkeep)
 *.db
 *.db-journal
-/db/
+/db/*.db
+/db/*.db-journal
+!/db/.gitkeep
 
 # debug
 npm-debug.log*
