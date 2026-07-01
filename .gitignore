@@ -1,0 +1,43 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# database
+*.db
+*.db-journal
+/db/
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env files (keep .env.example, ignore .env)
+.env
+.env.local
+.env.*.local
+
+# logs
+dev.log
+server.log
+
+# os files
+.DS_Store
+Thumbs.db
+
+# ide
+.vscode/
+.idea/
+
+# upload directory (user screenshots)
+/upload/
+
+# seed images are tracked (needed for seeding) — do NOT ignore

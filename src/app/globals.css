@@ -1,0 +1,206 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  /* Rafaab brand tokens */
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-deal: var(--deal);
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: oklch(0.99 0.005 60);
+  --foreground: oklch(0.18 0.01 30);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.01 30);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.01 30);
+  /* Rafaab coral — warm, premium, distinct from Jumia orange / Lazada blue / AliExpress red */
+  --primary: oklch(0.64 0.215 32);
+  --primary-foreground: oklch(0.99 0.01 60);
+  --brand: oklch(0.64 0.215 32);
+  --brand-foreground: oklch(0.99 0.01 60);
+  --deal: oklch(0.62 0.24 145);
+  --secondary: oklch(0.96 0.01 60);
+  --secondary-foreground: oklch(0.25 0.02 30);
+  --muted: oklch(0.965 0.008 60);
+  --muted-foreground: oklch(0.5 0.02 30);
+  --accent: oklch(0.95 0.03 60);
+  --accent-foreground: oklch(0.25 0.02 30);
+  --destructive: oklch(0.58 0.24 27);
+  --border: oklch(0.91 0.008 60);
+  --input: oklch(0.91 0.008 60);
+  --ring: oklch(0.64 0.215 32);
+  --chart-1: oklch(0.64 0.215 32);
+  --chart-2: oklch(0.7 0.18 85);
+  --chart-3: oklch(0.62 0.24 145);
+  --chart-4: oklch(0.6 0.2 280);
+  --chart-5: oklch(0.65 0.22 350);
+  --sidebar: oklch(0.985 0.005 60);
+  --sidebar-foreground: oklch(0.18 0.01 30);
+  --sidebar-primary: oklch(0.64 0.215 32);
+  --sidebar-primary-foreground: oklch(0.99 0.01 60);
+  --sidebar-accent: oklch(0.95 0.03 60);
+  --sidebar-accent-foreground: oklch(0.25 0.02 30);
+  --sidebar-border: oklch(0.91 0.008 60);
+  --sidebar-ring: oklch(0.64 0.215 32);
+}
+
+.dark {
+  --background: oklch(0.16 0.01 30);
+  --foreground: oklch(0.97 0.005 60);
+  --card: oklch(0.21 0.012 30);
+  --card-foreground: oklch(0.97 0.005 60);
+  --popover: oklch(0.21 0.012 30);
+  --popover-foreground: oklch(0.97 0.005 60);
+  --primary: oklch(0.7 0.2 35);
+  --primary-foreground: oklch(0.16 0.01 30);
+  --brand: oklch(0.7 0.2 35);
+  --brand-foreground: oklch(0.16 0.01 30);
+  --deal: oklch(0.72 0.2 150);
+  --secondary: oklch(0.27 0.015 30);
+  --secondary-foreground: oklch(0.97 0.005 60);
+  --muted: oklch(0.25 0.012 30);
+  --muted-foreground: oklch(0.7 0.015 60);
+  --accent: oklch(0.3 0.02 35);
+  --accent-foreground: oklch(0.97 0.005 60);
+  --destructive: oklch(0.7 0.19 22);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.7 0.2 35);
+  --chart-1: oklch(0.7 0.2 35);
+  --chart-2: oklch(0.75 0.18 85);
+  --chart-3: oklch(0.7 0.2 150);
+  --chart-4: oklch(0.68 0.2 280);
+  --chart-5: oklch(0.7 0.22 350);
+  --sidebar: oklch(0.21 0.012 30);
+  --sidebar-foreground: oklch(0.97 0.005 60);
+  --sidebar-primary: oklch(0.7 0.2 35);
+  --sidebar-primary-foreground: oklch(0.16 0.01 30);
+  --sidebar-accent: oklch(0.3 0.02 35);
+  --sidebar-accent-foreground: oklch(0.97 0.005 60);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.7 0.2 35);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Rafaab utility classes */
+@utility brand-gradient {
+  background-image: linear-gradient(135deg, oklch(0.66 0.22 28) 0%, oklch(0.68 0.21 55) 50%, oklch(0.72 0.19 85) 100%);
+}
+
+@utility brand-gradient-text {
+  background-image: linear-gradient(135deg, oklch(0.62 0.22 28) 0%, oklch(0.66 0.21 50) 55%, oklch(0.7 0.19 85) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility deal-gradient {
+  background-image: linear-gradient(135deg, oklch(0.6 0.24 145) 0%, oklch(0.58 0.2 170) 100%);
+}
+
+/* Custom scrollbar */
+.scroll-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: oklch(0.8 0.02 60);
+  border-radius: 9999px;
+}
+.dark .scroll-thin::-webkit-scrollbar-thumb {
+  background: oklch(0.4 0.02 30);
+}
+.scroll-thin::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.7 0.02 60);
+}
+
+/* Hide scrollbar for horizontal rails */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth marquee for announcements */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* Subtle card hover lift */
+.card-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+}
+
+/* Shimmer skeleton */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, oklch(0.92 0.01 60) 0%, oklch(0.96 0.01 60) 50%, oklch(0.92 0.01 60) 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
