@@ -5,7 +5,7 @@ import { hashPassword } from "../src/lib/auth";
 // Load image map produced by the image-fetch subagent
 const imageMap: Record<string, string[]> = require("../seed-data/images.json");
 const heroImages: string[] = imageMap["__hero__"] || [];
-const categoryImages: Record<string, string[]> = imageMap["__categories__"] || {};
+const categoryImages = (imageMap["__categories__"] || {}) as Record<string, string[]>;
 
 function imgs(query: string, fallbackSeed: string): string[] {
   const urls = imageMap[query];
@@ -1000,10 +1000,8 @@ async function main() {
 
   // Save hero images to a small meta file the API can read
   const fs = require("fs");
-  const path = require("path");
-  const metaPath = path.join(process.cwd(), "seed-data", "meta.json");
   fs.writeFileSync(
-    metaPath,
+    "/home/z/my-project/seed-data/meta.json",
     JSON.stringify({ hero: heroImages }, null, 2)
   );
 
