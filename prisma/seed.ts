@@ -1000,8 +1000,10 @@ async function main() {
 
   // Save hero images to a small meta file the API can read
   const fs = require("fs");
+  const path = require("path");
+  const metaPath = path.join(process.cwd(), "seed-data", "meta.json");
   fs.writeFileSync(
-    "/home/z/my-project/seed-data/meta.json",
+    metaPath,
     JSON.stringify({ hero: heroImages }, null, 2)
   );
 
