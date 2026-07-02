@@ -112,5 +112,4 @@ export type View =
   | { name: "track"; orderId: string }
   | { name: "wishlist" }
   | { name: "admin"; tab?: "overview" | "products" | "orders" }
-  | { name: "payment-callback"; reference: string }
   | { name: "account" };

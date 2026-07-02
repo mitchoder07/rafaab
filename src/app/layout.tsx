@@ -22,13 +22,24 @@ export const metadata: Metadata = {
   keywords: ["Rafaab", "online shopping", "marketplace", "electronics", "fashion", "Nigeria", "ecommerce"],
   authors: [{ name: "Rafaab" }],
   icons: {
-    icon: "/logo.svg",
+    icon: [
+      { url: "/logo.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
   },
   openGraph: {
     title: "Rafaab — Shop Smarter, Live Better",
     description: "Premium marketplace with AI shopping assistant, flash sales and fast delivery.",
     siteName: "Rafaab",
     type: "website",
+    images: ["/logo.svg"],
+  },
+  twitter: {
+    card: "summary",
+    title: "Rafaab — Shop Smarter, Live Better",
+    description: "Premium marketplace with AI shopping assistant, flash sales and fast delivery.",
+    images: ["/logo.svg"],
   },
 };
 

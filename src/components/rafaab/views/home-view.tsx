@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ChevronRight, Zap, Sparkles, TrendingUp, Gift } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { apiGet } from "@/lib/api";
-import { formatNaira, isFlashActive } from "@/lib/format";
+import { formatNaira } from "@/lib/format";
 import { Countdown } from "../countdown";
 import { getCategoryIcon } from "../category-icons";
 import { ProductRail } from "./product-rail";
@@ -20,14 +20,14 @@ export function HomeView({ categories }: { categories: Category[] }) {
   const [heroIdx, setHeroIdx] = useState(0);
 
   useEffect(() => {
-    apiGet<{ hero: string[] }>("/api/hero").then((r) => setHero(r.hero || [])).catch(() => { });
+    apiGet<{ hero: string[] }>("/api/hero").then((r) => setHero(r.hero || [])).catch(() => {});
     apiGet<{ products: Product[] }>("/api/products?flash=1&limit=8")
       .then((r) => {
         setFlashProducts(r.products);
         r.products.forEach(cacheProduct);
       })
       .catch(() => setFlashProducts([]));
-
+     
   }, []);
 
   useEffect(() => {
@@ -37,9 +37,9 @@ export function HomeView({ categories }: { categories: Category[] }) {
   }, [hero.length]);
 
   return (
-    <div className="space-y-6 pb-4 pt-3 sm:space-y-10 sm:pb-4 sm:pt-4">
+    <div className="space-y-8 pb-4 pt-4 sm:space-y-10">
       {/* Hero + categories sidebar */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6">
+      <section className="mx-auto max-w-7xl px-3 sm:px-6">
         <div className="grid gap-3 lg:grid-cols-[220px_1fr]">
           {/* category sidebar (desktop) */}
           <aside className="hidden rounded-2xl border border-border bg-card p-2 lg:block">
@@ -72,7 +72,7 @@ export function HomeView({ categories }: { categories: Category[] }) {
           {/* hero carousel */}
           <div className="relative overflow-hidden rounded-2xl border border-border bg-card">
             {hero.length > 0 ? (
-              <div className="relative aspect-[5/6] sm:aspect-[16/9] lg:aspect-[21/9]">
+              <div className="relative aspect-[16/9] sm:aspect-[21/9]">
                 {hero.map((src, i) => (
                   <motion.div
                     key={i}
@@ -82,31 +82,31 @@ export function HomeView({ categories }: { categories: Category[] }) {
                     className="absolute inset-0"
                   >
                     <img src={src} alt="Rafaab sale banner" className="h-full w-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 sm:bg-gradient-to-r sm:from-black/70 sm:via-black/30 sm:to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
                   </motion.div>
                 ))}
-                <div className="absolute inset-0 flex flex-col justify-end p-5 text-white sm:justify-center sm:p-10">
+                <div className="absolute inset-0 flex flex-col justify-center p-6 text-white sm:p-10">
                   <motion.div
                     key={heroIdx}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
                   >
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-[11px] font-bold backdrop-blur">
-                      <Sparkles width={12} height={12} /> Welcome to Rafaab
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-bold backdrop-blur">
+                      <Sparkles width={13} height={13} /> Welcome to Rafaab
                     </span>
-                    <h1 className="mt-2 max-w-md text-2xl font-black leading-tight sm:mt-3 sm:text-4xl lg:text-5xl">
+                    <h1 className="mt-3 max-w-md text-3xl font-black leading-tight sm:text-5xl">
                       Shop Smarter,<br />Live Better
                     </h1>
-                    <p className="mt-2 max-w-sm text-xs text-white/90 sm:mt-2 sm:text-sm lg:text-base">
+                    <p className="mt-2 max-w-sm text-sm text-white/90 sm:text-base">
                       Premium products, AI-powered shopping, flash deals and fast delivery — all in one place.
                     </p>
-                    <div className="mt-4 flex flex-col gap-2.5 sm:mt-5 sm:flex-row sm:flex-wrap sm:gap-3">
+                    <div className="mt-5 flex flex-wrap gap-2">
                       <button
                         onClick={() => navigate({ name: "catalog", flash: true })}
-                        className="flex items-center justify-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-neutral-900 transition hover:scale-105"
+                        className="flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-neutral-900 transition hover:scale-105"
                       >
-                        <Zap width={15} height={15} className="fill-neutral-900" /> Shop Flash Sale
+                        <Zap width={16} height={16} className="fill-neutral-900" /> Shop Flash Sale
                       </button>
                       <button
                         onClick={() => navigate({ name: "catalog" })}
@@ -118,7 +118,7 @@ export function HomeView({ categories }: { categories: Category[] }) {
                   </motion.div>
                 </div>
                 {hero.length > 1 && (
-                  <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 gap-1.5">
+                  <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1.5">
                     {hero.map((_, i) => (
                       <button
                         key={i}
@@ -155,7 +155,7 @@ export function HomeView({ categories }: { categories: Category[] }) {
       </section>
 
       {/* Category grid */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6">
+      <section className="mx-auto max-w-7xl px-3 sm:px-6">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
           {categories.map((c, i) => {
             const Icon = getCategoryIcon(c.icon);
@@ -187,7 +187,7 @@ export function HomeView({ categories }: { categories: Category[] }) {
       </section>
 
       {/* Flash Sale strip */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6">
+      <section className="mx-auto max-w-7xl px-3 sm:px-6">
         <div className="overflow-hidden rounded-2xl border border-border">
           <div className="flex flex-wrap items-center justify-between gap-3 deal-gradient px-4 py-3 text-white sm:px-5">
             <div className="flex items-center gap-2">
@@ -195,8 +195,8 @@ export function HomeView({ categories }: { categories: Category[] }) {
               <h2 className="text-xl font-black sm:text-2xl">Flash Sale</h2>
               <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-bold backdrop-blur">LIVE</span>
             </div>
-            {flashProducts && flashProducts[0] && isFlashActive(flashProducts[0]) && (
-              <Countdown endsAt={flashProducts[0].flashSaleEndsAt!} variant="light" />
+            {flashProducts && flashProducts[0]?.flashSaleEndsAt && (
+              <Countdown endsAt={flashProducts[0].flashSaleEndsAt} variant="light" />
             )}
           </div>
           <div className="bg-card p-3 sm:p-4">
@@ -228,7 +228,7 @@ export function HomeView({ categories }: { categories: Category[] }) {
       </section>
 
       {/* Value props strip */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6">
+      <section className="mx-auto max-w-7xl px-3 sm:px-6">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
             { icon: TrendingUp, title: "Best Prices", sub: "Unbeatable deals daily" },
@@ -278,7 +278,7 @@ export function HomeView({ categories }: { categories: Category[] }) {
       />
 
       {/* Big promo banner */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6">
+      <section className="mx-auto max-w-7xl px-3 sm:px-6">
         <div className="relative overflow-hidden rounded-2xl brand-gradient p-6 text-white sm:p-10">
           <div className="relative z-10 max-w-lg">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-bold backdrop-blur">

@@ -3,7 +3,7 @@
 import { Heart, ShoppingCart, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { useStore } from "@/lib/store";
-import { formatNaira, formatNumber, isFlashActive } from "@/lib/format";
+import { formatNaira, formatNumber } from "@/lib/format";
 import { StarRating } from "./star-rating";
 import { cn } from "@/lib/utils";
 import type { Product } from "@/lib/types";
@@ -17,7 +17,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
 
   const price = product.discountPrice ?? product.price;
   const off = product.discountPercent || 0;
-  const flash = isFlashActive(product);
+  const flash = product.isFlashSale && product.flashSaleEndsAt;
 
   return (
     <motion.div

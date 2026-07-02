@@ -1,16 +1,18 @@
 {
-  "name": "nextjs_tailwind_shadcn_ts",
+  "name": "rafaab",
   "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start -p 3000",
     "lint": "eslint .",
+    "postinstall": "prisma generate",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
-    "db:reset": "prisma migrate reset"
+    "db:reset": "prisma migrate reset",
+    "seed": "bun run prisma/seed.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
