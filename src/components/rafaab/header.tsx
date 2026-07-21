@@ -46,6 +46,7 @@ export function Header({ categories }: { categories: Category[] }) {
   const [mobileNav, setMobileNav] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const [scrolled, setScrolled] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
   const { theme, setTheme } = useTheme();
 
   useEffect(() => {
@@ -53,6 +54,17 @@ export function Header({ categories }: { categories: Category[] }) {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Close account dropdown when clicking outside
+  useEffect(() => {
+    if (!accountOpen) return;
+    const handler = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest("[data-account-dropdown]")) setAccountOpen(false);
+    };
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, [accountOpen]);
 
   const submitSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,10 +107,12 @@ export function Header({ categories }: { categories: Category[] }) {
           {/* logo */}
           <button
             onClick={() => navigate({ name: "home" })}
-            className="flex shrink-0 items-center gap-2"
+            className="flex shrink-0 items-center gap-1.5"
             aria-label="Rafaab home"
           >
-            <img src="/logo.svg" alt="Rafaab" width={36} height={36} className="rounded-lg shadow-sm" />
+            <span className="grid h-9 w-9 place-items-center rounded-xl brand-gradient text-white shadow-md">
+              <Sparkles width={18} height={18} />
+            </span>
             <span className="text-xl font-black tracking-tight brand-gradient-text">Rafaab</span>
           </button>
 
@@ -152,9 +166,11 @@ export function Header({ categories }: { categories: Category[] }) {
 
             {/* account */}
             {user ? (
-              <div className="group relative">
+              <div className="relative" data-account-dropdown>
                 <button
+                  onClick={() => setAccountOpen((v) => !v)}
                   aria-label="Account"
+                  aria-expanded={accountOpen}
                   className="flex items-center gap-1.5 rounded-full px-2 py-1.5 text-sm transition hover:bg-muted"
                 >
                   <span className="grid h-7 w-7 place-items-center rounded-full brand-gradient text-xs font-bold text-white">
@@ -162,33 +178,37 @@ export function Header({ categories }: { categories: Category[] }) {
                   </span>
                   <span className="hidden max-w-20 truncate font-medium sm:block">{user.name.split(" ")[0]}</span>
                 </button>
-                <div className="invisible absolute right-0 top-full z-50 w-52 origin-top-right rounded-xl border border-border bg-popover p-1.5 opacity-0 shadow-lg transition group-hover:visible group-hover:opacity-100">
+                <div
+                  className={`absolute right-0 top-full z-50 w-56 origin-top-right rounded-xl border border-border bg-popover p-1.5 shadow-lg transition-all ${
+                    accountOpen ? "visible opacity-100 translate-y-0" : "invisible opacity-0 -translate-y-1"
+                  }`}
+                >
                   <div className="border-b border-border px-3 py-2">
                     <p className="truncate text-sm font-semibold">{user.name}</p>
                     <p className="truncate text-xs text-muted-foreground">{user.email}</p>
                   </div>
                   <button
-                    onClick={() => navigate({ name: "orders" })}
+                    onClick={() => { navigate({ name: "orders" }); setAccountOpen(false); }}
                     className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm transition hover:bg-muted"
                   >
                     <Package width={16} height={16} /> My Orders
                   </button>
                   <button
-                    onClick={() => navigate({ name: "wishlist" })}
+                    onClick={() => { navigate({ name: "wishlist" }); setAccountOpen(false); }}
                     className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm transition hover:bg-muted"
                   >
                     <Heart width={16} height={16} /> Wishlist
                   </button>
                   {user.role === "admin" && (
                     <button
-                      onClick={() => navigate({ name: "admin" })}
+                      onClick={() => { navigate({ name: "admin" }); setAccountOpen(false); }}
                       className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
                     >
                       <LayoutDashboard width={16} height={16} /> Seller Dashboard
                     </button>
                   )}
                   <button
-                    onClick={logout}
+                    onClick={() => { logout(); setAccountOpen(false); }}
                     className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-destructive transition hover:bg-destructive/10"
                   >
                     <LogOut width={16} height={16} /> Sign out
@@ -232,14 +252,16 @@ export function Header({ categories }: { categories: Category[] }) {
         </div>
 
         {/* search (mobile) */}
-        <form onSubmit={submitSearch} className="relative px-3 pb-2 md:hidden">
-          <Search className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-muted-foreground" width={18} height={18} />
-          <input
-            value={searchVal}
-            onChange={(e) => setSearchVal(e.target.value)}
-            placeholder="Search Rafaab..."
-            className="h-10 w-full rounded-full border border-border bg-muted/60 pl-10 pr-4 text-sm outline-none focus:border-primary focus:bg-background"
-          />
+        <form onSubmit={submitSearch} className="px-3 pb-2 md:hidden">
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" width={18} height={18} />
+            <input
+              value={searchVal}
+              onChange={(e) => setSearchVal(e.target.value)}
+              placeholder="Search Rafaab..."
+              className="h-10 w-full rounded-full border border-border bg-muted/60 pl-10 pr-4 text-sm outline-none focus:border-primary focus:bg-background"
+            />
+          </div>
         </form>
       </div>
 

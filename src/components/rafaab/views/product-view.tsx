@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { apiGet, apiPost } from "@/lib/api";
-import { formatNaira, formatNumber } from "@/lib/format";
+import { formatNaira, formatNumber, isFlashActive } from "@/lib/format";
 import { StarRating } from "../star-rating";
 import { Countdown } from "../countdown";
 import { ProductCard, ProductCardSkeleton } from "../product-card";
@@ -86,7 +86,7 @@ export function ProductView({ productId }: { productId: string }) {
   const { product, reviews, related } = data;
   const price = product.discountPrice ?? product.price;
   const off = product.discountPercent || 0;
-  const flash = product.isFlashSale && product.flashSaleEndsAt;
+  const flash = isFlashActive(product);
   const wished = isWishlisted || data.inWishlist;
 
   const submitReview = async (e: React.FormEvent) => {

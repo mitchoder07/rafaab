@@ -5,7 +5,7 @@ import { hashPassword } from "../src/lib/auth";
 // Load image map produced by the image-fetch subagent
 const imageMap: Record<string, string[]> = require("../seed-data/images.json");
 const heroImages: string[] = imageMap["__hero__"] || [];
-const categoryImages = (imageMap["__categories__"] || {}) as Record<string, string[]>;
+const categoryImages: Record<string, string[]> = imageMap["__categories__"] || {};
 
 function imgs(query: string, fallbackSeed: string): string[] {
   const urls = imageMap[query];
@@ -955,7 +955,7 @@ async function main() {
     const images = imgs(p.imageQuery, p.fallbackSeed);
     const flashEnd =
       p.flags.flashSale && p.discountPrice
-        ? new Date(now + (1 + Math.floor(Math.random() * 11)) * 3600 * 1000) // 1-12h from now
+        ? new Date(now + (6 + Math.floor(Math.random() * 18)) * 3600 * 1000) // 6-24h from now
         : null;
 
     const product = await db.product.create({

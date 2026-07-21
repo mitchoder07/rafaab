@@ -37,50 +37,52 @@ export function TrackingTimeline({
     );
   }
 
-  return (
-    <div className={cn("relative", compact ? "py-1" : "py-2")}>
-      {/* progress line background */}
-      <div className="absolute left-[15px] top-4 bottom-4 w-0.5 bg-border" />
-      {/* progress line fill */}
-      <motion.div
-        initial={{ height: 0 }}
-        animate={{
-          height: `${(getProgressFill(status) * 100)}%`,
-        }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="absolute left-[15px] top-4 w-0.5 bg-primary"
-        style={{ maxHeight: "calc(100% - 32px)" }}
-      />
+  const steps = TRACKING_STEPS;
+  const currentIdx = ["confirmed", "processing", "shipped", "out_for_delivery", "delivered"].indexOf(status);
 
-      <div className="relative space-y-4">
-        {TRACKING_STEPS.map((step) => {
+  return (
+    <div className={cn(compact ? "py-1" : "py-2")}>
+      <div className="flex flex-col">
+        {steps.map((step, idx) => {
           const state = isStepReached(step.key, status);
           const event = getEventForStep(events, step.key);
           const Icon = step.icon;
+          const isLast = idx === steps.length - 1;
+          // This segment's connector is filled if current status is past this step
+          const segmentFilled = currentIdx > idx;
 
           return (
-            <div key={step.key} className="relative flex items-start gap-3">
-              <div
-                className={cn(
-                  "z-10 grid h-8 w-8 shrink-0 place-items-center rounded-full border-2 transition",
-                  state === "done" && "border-primary bg-primary text-primary-foreground",
-                  state === "current" && "border-primary bg-primary/10 text-primary",
-                  state === "todo" && "border-border bg-background text-muted-foreground",
-                  state === "cancelled" && "border-border bg-background text-muted-foreground"
-                )}
-              >
-                {state === "done" ? (
-                  <Icon width={15} height={15} />
-                ) : state === "current" ? (
-                  <>
+            <div key={step.key} className="flex">
+              {/* Icon + connector column — the connector extends down to meet the next icon */}
+              <div className="flex flex-col items-center">
+                <div
+                  className={cn(
+                    "z-10 grid h-8 w-8 shrink-0 place-items-center rounded-full border-2 transition",
+                    state === "done" && "border-primary bg-primary text-primary-foreground",
+                    state === "current" && "border-primary bg-card text-primary",
+                    state === "todo" && "border-border bg-card text-muted-foreground",
+                    state === "cancelled" && "border-border bg-card text-muted-foreground"
+                  )}
+                >
+                  {state === "done" ? (
                     <Icon width={15} height={15} />
-                    <span className="absolute inset-0 animate-ping rounded-full border-2 border-primary opacity-40" />
-                  </>
-                ) : (
-                  <Icon width={15} height={15} className="opacity-40" />
+                  ) : state === "current" ? (
+                    <>
+                      <Icon width={15} height={15} />
+                      <span className="absolute inset-0 animate-ping rounded-full border-2 border-primary opacity-40" />
+                    </>
+                  ) : (
+                    <Icon width={15} height={15} className="opacity-40" />
+                  )}
+                </div>
+                {/* Connector line: fills the space below this icon down to the next icon */}
+                {!isLast && (
+                  <div className={cn("w-0.5 flex-1", compact ? "my-1" : "my-1", segmentFilled ? "bg-primary" : "bg-border")} />
                 )}
               </div>
-              <div className="flex-1 pt-0.5">
+
+              {/* Content column — its bottom padding creates the gap that the connector fills */}
+              <div className={cn("flex-1 pl-3", isLast ? "pb-0" : compact ? "pb-3" : "pb-5")}>
                 <div className="flex items-center justify-between gap-2">
                   <p
                     className={cn(
@@ -99,7 +101,7 @@ export function TrackingTimeline({
                   )}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  {event ? event.note : state === "todo" ? step.description : step.description}
+                  {event ? event.note : step.description}
                 </p>
                 {event?.location && !compact && (
                   <p className="mt-0.5 text-[11px] font-medium text-foreground/70">📍 {event.location}</p>
@@ -111,11 +113,4 @@ export function TrackingTimeline({
       </div>
     </div>
   );
-}
-
-function getProgressFill(status: string): number {
-  const idx = ["confirmed", "processing", "shipped", "out_for_delivery", "delivered"].indexOf(status);
-  if (idx === -1) return 0;
-  // fill proportionally across the 4 gaps between 5 steps
-  return idx / 4;
 }

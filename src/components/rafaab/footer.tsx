@@ -46,8 +46,10 @@ export function Footer({ onNavigateCategory }: { onNavigateCategory?: () => void
       {/* main */}
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 py-10 sm:px-6 md:grid-cols-5">
         <div className="col-span-2">
-          <button onClick={() => navigate({ name: "home" })} className="flex items-center gap-2">
-            <img src="/logo.svg" alt="Rafaab" width={36} height={36} className="rounded-lg shadow-sm" />
+          <button onClick={() => navigate({ name: "home" })} className="flex items-center gap-1.5">
+            <span className="grid h-9 w-9 place-items-center rounded-xl brand-gradient text-white shadow-md">
+              <Sparkles width={18} height={18} />
+            </span>
             <span className="text-xl font-black brand-gradient-text">Rafaab</span>
           </button>
           <p className="mt-3 max-w-xs text-sm text-muted-foreground">

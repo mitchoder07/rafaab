@@ -33,7 +33,10 @@ export async function GET(req: NextRequest) {
       { tags: { contains: query } },
     ];
   }
-  if (flash) where.isFlashSale = true;
+  if (flash) {
+    where.isFlashSale = true;
+    where.flashSaleEndsAt = { gt: new Date() };
+  }
   if (featured) where.isFeatured = true;
   if (bestSeller) where.isBestSeller = true;
   if (newArrival) where.isNewArrival = true;

@@ -99,8 +99,8 @@ export function OrdersView() {
                       {new Date(o.createdAt).toLocaleDateString("en-NG", { weekday: "short", month: "short", day: "numeric", year: "numeric" })}
                     </p>
                   </div>
-                  <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold ${sc.color}`}>
-                    <sc.icon width={13} height={13} /> {sc.label}
+                  <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold leading-none ${sc.color}`}>
+                    <sc.icon width={13} height={13} className="shrink-0" /> {sc.label}
                   </span>
                 </div>
 
@@ -132,7 +132,7 @@ export function OrdersView() {
                   {/* Mini progress bar */}
                   {o.status !== "cancelled" && (
                     <div className="mt-4">
-                      <div className="mb-1.5 flex items-center justify-between">
+                      <div className="mb-2 flex items-center justify-between">
                         <span className="text-xs font-semibold text-muted-foreground">Shipment Progress</span>
                         {eta && o.status !== "delivered" && (
                           <span className="text-xs font-medium text-foreground">
@@ -140,35 +140,33 @@ export function OrdersView() {
                           </span>
                         )}
                       </div>
-                      <div className="relative flex items-center justify-between">
+                      <div className="flex items-start">
                         {STEP_LABELS.map((label, idx) => {
                           const reached = progress >= 0 && idx <= progress;
                           const isCurrent = progress === idx;
+                          const isLast = idx === STEP_LABELS.length - 1;
                           return (
-                            <div key={label} className="flex flex-1 flex-col items-center relative">
-                              {idx < STEP_LABELS.length - 1 && (
-                                <div className="absolute top-[7px] left-1/2 w-full h-0.5 bg-border">
-                                  <div
-                                    className="h-full bg-primary transition-all duration-500"
-                                    style={{ width: reached && idx < progress ? "100%" : "0%" }}
-                                  />
-                                </div>
+                            <div key={label} className="flex items-start" style={{ flex: isLast ? "0 0 auto" : "1 1 0%" }}>
+                              <div className="flex flex-col items-center">
+                                <span
+                                  className={cn(
+                                    "grid h-3.5 w-3.5 place-items-center rounded-full border-2 transition shrink-0",
+                                    reached ? "border-primary bg-primary" : "border-border bg-background",
+                                    isCurrent && "ring-4 ring-primary/20"
+                                  )}
+                                />
+                                <span
+                                  className={cn(
+                                    "mt-1 text-[10px] font-medium whitespace-nowrap",
+                                    reached ? "text-foreground" : "text-muted-foreground/60"
+                                  )}
+                                >
+                                  {label}
+                                </span>
+                              </div>
+                              {!isLast && (
+                                <div className={cn("mx-1 mt-[6px] h-0.5 flex-1 rounded-full transition-colors", idx < progress ? "bg-primary" : "bg-border")} />
                               )}
-                              <span
-                                className={cn(
-                                  "relative z-10 grid h-3.5 w-3.5 place-items-center rounded-full border-2 transition",
-                                  reached ? "border-primary bg-primary" : "border-border bg-background",
-                                  isCurrent && "ring-4 ring-primary/20"
-                                )}
-                              />
-                              <span
-                                className={cn(
-                                  "mt-1 text-[10px] font-medium",
-                                  reached ? "text-foreground" : "text-muted-foreground/60"
-                                )}
-                              >
-                                {label}
-                              </span>
                             </div>
                           );
                         })}
