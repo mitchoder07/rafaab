@@ -1,0 +1,37 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <defs>
+    <linearGradient id="goldDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24"/>
+      <stop offset="50%" stop-color="#F97316"/>
+      <stop offset="100%" stop-color="#FCD34D"/>
+    </linearGradient>
+    <linearGradient id="goldDarkDeep" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#92400E"/>
+      <stop offset="100%" stop-color="#C2410C"/>
+    </linearGradient>
+    <radialGradient id="darkGlow" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#FCD34D" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#F97316" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- Glow halo for dark backgrounds -->
+  <circle cx="40" cy="40" r="39" fill="url(#darkGlow)"/>
+  <!-- Gold amulet disc -->
+  <circle cx="40" cy="40" r="38" fill="url(#goldDark)"/>
+  <circle cx="40" cy="40" r="37" fill="none" stroke="url(#goldDarkDeep)" stroke-width="1.5"/>
+  <circle cx="40" cy="40" r="33" fill="none" stroke="url(#goldDarkDeep)" stroke-width="0.8" opacity="0.6"/>
+  <!-- Decorative dots -->
+  <circle cx="40" cy="11" r="1.5" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="40" cy="69" r="1.5" fill="#FFFFFF" opacity="0.9"/>
+  <!-- RAFAAB text -->
+  <text x="40" y="38" text-anchor="middle" font-family="Georgia, serif" font-size="14" font-weight="900" fill="#FFFFFF" letter-spacing="-0.5">RAFAAB</text>
+  <!-- Locking bar -->
+  <rect x="14" y="42" width="52" height="1.5" fill="#FFFFFF" opacity="0.8"/>
+  <!-- Shopping trolley -->
+  <g fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M28 47 L30 47 L32 56"/>
+    <path d="M31 50 L48 50 L46 58 L33 58 Z" fill="#FFFFFF" fill-opacity="0.2"/>
+  </g>
+  <circle cx="35" cy="61" r="1.6" fill="#FFFFFF"/>
+  <circle cx="44" cy="61" r="1.6" fill="#FFFFFF"/>
+</svg>

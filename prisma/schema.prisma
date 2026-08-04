@@ -1,0 +1,171 @@
+// Rafaab e-commerce schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String
+  password      String
+  avatar        String?
+  phone         String?
+  role          String         @default("customer") // customer | admin
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  addresses     Address[]
+  reviews       Review[]
+  orders        Order[]
+  wishlistItems WishlistItem[]
+  cart          Cart?
+}
+
+model Address {
+  id        String  @id @default(cuid())
+  userId    String
+  fullName  String
+  phone     String
+  street    String
+  city      String
+  state     String
+  country   String  @default("Nigeria")
+  isDefault Boolean @default(false)
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  icon      String?
+  image     String?
+  color     String?
+  parentId  String?
+  parent    Category? @relation("CategoryTree", fields: [parentId], references: [id])
+  children  Category[] @relation("CategoryTree")
+  products  Product[]
+  createdAt DateTime  @default(now())
+}
+
+model Product {
+  id              String      @id @default(cuid())
+  title           String
+  slug            String      @unique
+  description     String
+  brand           String
+  price           Float
+  discountPrice   Float?
+  stock           Int         @default(0)
+  sku             String?
+  // JSON string: array of image URLs
+  images          String
+  // JSON string: array of {name, value} spec pairs
+  specs           String?
+  // JSON string: array of tags
+  tags            String?
+  rating          Float       @default(0)
+  numReviews      Int         @default(0)
+  soldCount       Int         @default(0)
+  categoryId      String
+  category        Category    @relation(fields: [categoryId], references: [id])
+  isFlashSale     Boolean     @default(false)
+  flashSaleEndsAt DateTime?
+  isFeatured      Boolean     @default(false)
+  isBestSeller    Boolean     @default(false)
+  isNewArrival    Boolean     @default(false)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  reviews         Review[]
+  orderItems      OrderItem[]
+  cartItems       CartItem[]
+  wishlistItems   WishlistItem[]
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CartItem[]
+}
+
+model CartItem {
+  id        String  @id @default(cuid())
+  cartId    String
+  productId String
+  quantity  Int     @default(1)
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  userId          String
+  orderNumber     String      @unique
+  status          String      @default("confirmed") // confirmed | processing | shipped | out_for_delivery | delivered | cancelled
+  subtotal        Float
+  shipping        Float       @default(0)
+  discount        Float       @default(0)
+  total           Float
+  // JSON string: shipping address snapshot
+  shippingAddress String
+  paymentMethod   String      @default("card") // card | cod | transfer
+  paymentStatus   String      @default("unpaid") // unpaid | paid
+  estimatedDelivery DateTime?
+  carrier         String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  user            User        @relation(fields: [userId], references: [id])
+  items           OrderItem[]
+  trackingEvents  TrackingEvent[]
+}
+
+model TrackingEvent {
+  id        String   @id @default(cuid())
+  orderId   String
+  status    String
+  note      String?
+  location  String?
+  createdAt DateTime @default(now())
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  title     String
+  image     String
+  price     Float
+  quantity  Int
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+}
