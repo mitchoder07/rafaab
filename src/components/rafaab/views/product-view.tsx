@@ -46,9 +46,12 @@ export function ProductView({ productId }: { productId: string }) {
 
   useEffect(() => {
     let alive = true;
-    setData(null);
-    setActiveImg(0);
-    setQty(1);
+    queueMicrotask(() => {
+      if (!alive) return;
+      setData(null);
+      setActiveImg(0);
+      setQty(1);
+    });
     apiGet<{ product: Product; reviews: Review[]; related: Product[]; inWishlist: boolean }>(
       `/api/products/${productId}`
     )

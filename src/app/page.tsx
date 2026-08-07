@@ -8,6 +8,7 @@ import { Footer } from "@/components/rafaab/footer";
 import { CartDrawer } from "@/components/rafaab/cart-drawer";
 import { AuthModal } from "@/components/rafaab/auth-modal";
 import { AIChatWidget } from "@/components/rafaab/ai-chat-widget";
+import { QuickViewModal } from "@/components/rafaab/quick-view-modal";
 import { HomeView } from "@/components/rafaab/views/home-view";
 import { CatalogView } from "@/components/rafaab/views/catalog-view";
 import { ProductView } from "@/components/rafaab/views/product-view";
@@ -63,6 +64,7 @@ export default function Home() {
       <CartDrawer />
       <AuthModal />
       <AIChatWidget />
+      <QuickViewModal />
 
       {/* keep categoriesLoading referenced to avoid unused warning */}
       <span className="sr-only">{categoriesLoading ? "loading" : "ready"}</span>
