@@ -46,6 +46,7 @@ export function Header({ categories }: { categories: Category[] }) {
   const setCartOpen = useStore((s) => s.setCartOpen);
   const [mobileNav, setMobileNav] = useState(false);
   const [searchVal, setSearchVal] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -128,6 +129,8 @@ export function Header({ categories }: { categories: Category[] }) {
             <input
               value={searchVal}
               onChange={(e) => setSearchVal(e.target.value)}
+              onFocus={() => setSearchFocused(true)}
+              onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
               placeholder="Search for products, brands and categories..."
               className="h-10 w-full rounded-full border border-border bg-muted/60 pl-10 pr-24 text-sm outline-none transition focus:border-primary focus:bg-background focus:ring-2 focus:ring-primary/20"
             />
@@ -137,6 +140,79 @@ export function Header({ categories }: { categories: Category[] }) {
             >
               Search
             </button>
+
+            {searchFocused && !searchVal && (
+              <div className="absolute left-0 right-0 top-12 z-50 rounded-2xl border border-border bg-background p-4 shadow-xl">
+                <div className="flex items-center justify-between pb-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Popular Searches</span>
+                  <span className="text-xs text-primary font-medium">Trending on Rafaab</span>
+                </div>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {[
+                    "Smartphones",
+                    "Wireless Earbuds",
+                    "Air Fryer",
+                    "Laptops",
+                    "Sneakers",
+                    "Smartwatch",
+                    "Perfumes",
+                    "Gaming",
+                  ].map((term) => (
+                    <button
+                      key={term}
+                      type="button"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        navigate({ name: "catalog", query: term });
+                        setSearchFocused(false);
+                      }}
+                      className="rounded-full bg-muted px-3 py-1 text-xs font-medium transition hover:bg-primary hover:text-primary-foreground"
+                    >
+                      {term}
+                    </button>
+                  ))}
+                </div>
+                <div className="mt-3 border-t border-border pt-3">
+                  <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Quick Shortcuts</span>
+                  <div className="mt-2 grid grid-cols-3 gap-2">
+                    <button
+                      type="button"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        navigate({ name: "catalog", flash: true });
+                        setSearchFocused(false);
+                      }}
+                      className="flex items-center gap-1.5 rounded-lg bg-deal/10 p-2 text-xs font-semibold text-deal"
+                      style={{ color: "var(--deal)" }}
+                    >
+                      ⚡ Flash Sale Deals
+                    </button>
+                    <button
+                      type="button"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        navigate({ name: "catalog", sort: "sold" });
+                        setSearchFocused(false);
+                      }}
+                      className="flex items-center gap-1.5 rounded-lg bg-primary/10 p-2 text-xs font-semibold text-primary"
+                    >
+                      🏆 Top Best Sellers
+                    </button>
+                    <button
+                      type="button"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        setAiChatOpen(true);
+                        setSearchFocused(false);
+                      }}
+                      className="flex items-center gap-1.5 rounded-lg bg-amber-500/10 p-2 text-xs font-semibold text-amber-600 dark:text-amber-400"
+                    >
+                      💬 Ask Rafi AI Assistant
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </form>
 
           {/* right actions */}
@@ -298,6 +374,24 @@ export function Header({ categories }: { categories: Category[] }) {
           >
             <Zap width={15} height={15} className="fill-current" /> Flash Sale
           </button>
+          <button
+            onClick={() => navigate({ name: "catalog", sort: "sold" })}
+            className={cn(
+              "flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition hover:bg-muted",
+              view.name === "catalog" && view.sort === "sold" && "text-primary font-semibold"
+            )}
+          >
+            🏆 Best Sellers
+          </button>
+          <button
+            onClick={() => navigate({ name: "catalog", sort: "newest" })}
+            className={cn(
+              "flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition hover:bg-muted",
+              view.name === "catalog" && view.sort === "newest" && "text-primary font-semibold"
+            )}
+          >
+            ⭐ New Arrivals
+          </button>
           {categories.map((c) => {
             const Icon = getCategoryIcon(c.icon);
             const active = view.name === "catalog" && view.categoryId === c.id;
@@ -340,6 +434,33 @@ export function Header({ categories }: { categories: Category[] }) {
               className="flex items-center gap-2 rounded-lg bg-muted px-3 py-2.5 text-sm font-medium"
             >
               <Package width={16} height={16} /> All Products
+            </button>
+            <button
+              onClick={() => {
+                navigate({ name: "catalog", sort: "sold" });
+                setMobileNav(false);
+              }}
+              className="flex items-center gap-2 rounded-lg bg-primary/10 px-3 py-2.5 text-sm font-semibold text-primary"
+            >
+              🏆 Best Sellers
+            </button>
+            <button
+              onClick={() => {
+                navigate({ name: "catalog", sort: "newest" });
+                setMobileNav(false);
+              }}
+              className="flex items-center gap-2 rounded-lg bg-muted px-3 py-2.5 text-sm font-medium"
+            >
+              ⭐ New Arrivals
+            </button>
+            <button
+              onClick={() => {
+                setAiChatOpen(true);
+                setMobileNav(false);
+              }}
+              className="flex items-center gap-2 rounded-lg bg-amber-500/10 px-3 py-2.5 text-sm font-semibold text-amber-600 dark:text-amber-400 col-span-2"
+            >
+              💬 Ask Rafi AI Shopping Assistant
             </button>
             {categories.map((c) => {
               const Icon = getCategoryIcon(c.icon);
