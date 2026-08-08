@@ -15,7 +15,7 @@ if (!fs.existsSync(engineSrc)) {
 const targets = [
   path.join(rootDir, 'node_modules/@prisma/engines/libquery_engine-debian-openssl-3.0.x.so.node'),
   path.join(rootDir, 'node_modules/prisma/libquery_engine-debian-openssl-3.0.x.so.node'),
-  path.join(os.homedir(), '.cache/prisma/master/c2990dca591cba766e3b7ef5d9e8a84796e47ab7/debian-openssl-3.0.x/libquery_engine.so.node'),
+  path.join(os.homedir(), '.cache/prisma/master/e922089b7d7502aff4249d5da3420f6fa55fc6ad/debian-openssl-3.0.x/libquery_engine.so.node'),
 ];
 
 for (const target of targets) {
@@ -31,7 +31,7 @@ for (const target of targets) {
 const schemaTargets = [
   path.join(rootDir, 'node_modules/@prisma/engines/schema-engine-debian-openssl-3.0.x'),
   path.join(rootDir, 'node_modules/prisma/schema-engine-debian-openssl-3.0.x'),
-  path.join(os.homedir(), '.cache/prisma/master/c2990dca591cba766e3b7ef5d9e8a84796e47ab7/debian-openssl-3.0.x/schema-engine'),
+  path.join(os.homedir(), '.cache/prisma/master/e922089b7d7502aff4249d5da3420f6fa55fc6ad/debian-openssl-3.0.x/schema-engine'),
 ];
 
 for (const target of schemaTargets) {
@@ -50,7 +50,7 @@ const prismaIdx = path.join(rootDir, 'node_modules/prisma/build/index.js');
 if (fs.existsSync(prismaIdx)) {
   let content = fs.readFileSync(prismaIdx, 'utf8');
   const oldStr = 'async function wJe(e,r){try{if(r==="libquery-engine"){Bg();let n=require(e).version().commit;return`libquery-engine ${n}`}else return(await gd(e,["--version"])).stdout}catch{}}';
-  const newStr = 'async function wJe(e,r){return "c2990dca591cba766e3b7ef5d9e8a84796e47ab7";}';
+  const newStr = 'async function wJe(e,r){return "e922089b7d7502aff4249d5da3420f6fa55fc6ad";}';
   if (content.includes(oldStr)) {
     content = content.replace(oldStr, newStr);
     fs.writeFileSync(prismaIdx, content);
