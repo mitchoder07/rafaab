@@ -15,7 +15,6 @@ import {
   LogOut,
   Sparkles,
   LayoutDashboard,
-  Truck,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useStore } from "@/lib/store";
@@ -46,7 +45,6 @@ export function Header({ categories }: { categories: Category[] }) {
   const setCartOpen = useStore((s) => s.setCartOpen);
   const [mobileNav, setMobileNav] = useState(false);
   const [searchVal, setSearchVal] = useState("");
-  const [searchFocused, setSearchFocused] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -57,21 +55,15 @@ export function Header({ categories }: { categories: Category[] }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close account dropdown when clicking outside (with small delay for touch)
+  // Close account dropdown when clicking outside
   useEffect(() => {
     if (!accountOpen) return;
     const handler = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target.closest("[data-account-dropdown]")) setAccountOpen(false);
     };
-    // Delay adding the listener so the opening click doesn't immediately close it
-    const timer = setTimeout(() => {
-      document.addEventListener("click", handler);
-    }, 100);
-    return () => {
-      clearTimeout(timer);
-      document.removeEventListener("click", handler);
-    };
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
   }, [accountOpen]);
 
   const submitSearch = (e: React.FormEvent) => {
@@ -115,11 +107,12 @@ export function Header({ categories }: { categories: Category[] }) {
           {/* logo */}
           <button
             onClick={() => navigate({ name: "home" })}
-            className="flex shrink-0 items-center gap-2"
+            className="flex shrink-0 items-center gap-1.5"
             aria-label="Rafaab home"
           >
-            <img src="/logo-light.svg" alt="Rafaab" width={36} height={36} className="rounded-lg shadow-sm block dark:hidden" />
-            <img src="/logo-dark.svg" alt="Rafaab" width={36} height={36} className="rounded-lg shadow-sm hidden dark:block" />
+            <span className="grid h-9 w-9 place-items-center rounded-xl brand-gradient text-white shadow-md">
+              <Sparkles width={18} height={18} />
+            </span>
             <span className="text-xl font-black tracking-tight brand-gradient-text">Rafaab</span>
           </button>
 
@@ -129,8 +122,6 @@ export function Header({ categories }: { categories: Category[] }) {
             <input
               value={searchVal}
               onChange={(e) => setSearchVal(e.target.value)}
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
               placeholder="Search for products, brands and categories..."
               className="h-10 w-full rounded-full border border-border bg-muted/60 pl-10 pr-24 text-sm outline-none transition focus:border-primary focus:bg-background focus:ring-2 focus:ring-primary/20"
             />
@@ -140,79 +131,6 @@ export function Header({ categories }: { categories: Category[] }) {
             >
               Search
             </button>
-
-            {searchFocused && !searchVal && (
-              <div className="absolute left-0 right-0 top-12 z-50 rounded-2xl border border-border bg-background p-4 shadow-xl">
-                <div className="flex items-center justify-between pb-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Popular Searches</span>
-                  <span className="text-xs text-primary font-medium">Trending on Rafaab</span>
-                </div>
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {[
-                    "Smartphones",
-                    "Wireless Earbuds",
-                    "Air Fryer",
-                    "Laptops",
-                    "Sneakers",
-                    "Smartwatch",
-                    "Perfumes",
-                    "Gaming",
-                  ].map((term) => (
-                    <button
-                      key={term}
-                      type="button"
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        navigate({ name: "catalog", query: term });
-                        setSearchFocused(false);
-                      }}
-                      className="rounded-full bg-muted px-3 py-1 text-xs font-medium transition hover:bg-primary hover:text-primary-foreground"
-                    >
-                      {term}
-                    </button>
-                  ))}
-                </div>
-                <div className="mt-3 border-t border-border pt-3">
-                  <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Quick Shortcuts</span>
-                  <div className="mt-2 grid grid-cols-3 gap-2">
-                    <button
-                      type="button"
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        navigate({ name: "catalog", flash: true });
-                        setSearchFocused(false);
-                      }}
-                      className="flex items-center gap-1.5 rounded-lg bg-deal/10 p-2 text-xs font-semibold text-deal"
-                      style={{ color: "var(--deal)" }}
-                    >
-                      ⚡ Flash Sale Deals
-                    </button>
-                    <button
-                      type="button"
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        navigate({ name: "catalog", sort: "sold" });
-                        setSearchFocused(false);
-                      }}
-                      className="flex items-center gap-1.5 rounded-lg bg-primary/10 p-2 text-xs font-semibold text-primary"
-                    >
-                      🏆 Top Best Sellers
-                    </button>
-                    <button
-                      type="button"
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        setAiChatOpen(true);
-                        setSearchFocused(false);
-                      }}
-                      className="flex items-center gap-1.5 rounded-lg bg-amber-500/10 p-2 text-xs font-semibold text-amber-600 dark:text-amber-400"
-                    >
-                      💬 Ask Rafi AI Assistant
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
           </form>
 
           {/* right actions */}
@@ -231,14 +149,6 @@ export function Header({ categories }: { categories: Category[] }) {
               className="grid h-9 w-9 place-items-center rounded-full text-foreground/70 transition hover:bg-muted"
             >
               {theme === "dark" ? <Sun width={18} height={18} /> : <Moon width={18} height={18} />}
-            </button>
-
-            <button
-              onClick={() => navigate({ name: "orders" })}
-              aria-label="Track orders"
-              className="grid h-9 w-9 place-items-center rounded-full text-foreground/70 transition hover:bg-muted md:hidden"
-            >
-              <Truck width={18} height={18} />
             </button>
 
             <button
@@ -269,8 +179,8 @@ export function Header({ categories }: { categories: Category[] }) {
                   <span className="hidden max-w-20 truncate font-medium sm:block">{user.name.split(" ")[0]}</span>
                 </button>
                 <div
-                  className={`absolute right-0 top-full z-[60] w-56 origin-top-right rounded-xl border border-border bg-popover p-1.5 shadow-xl transition-all ${
-                    accountOpen ? "visible opacity-100 translate-y-0" : "invisible opacity-0 -translate-y-1 pointer-events-none"
+                  className={`absolute right-0 top-full z-50 w-56 origin-top-right rounded-xl border border-border bg-popover p-1.5 shadow-lg transition-all ${
+                    accountOpen ? "visible opacity-100 translate-y-0" : "invisible opacity-0 -translate-y-1"
                   }`}
                 >
                   <div className="border-b border-border px-3 py-2">
@@ -342,9 +252,9 @@ export function Header({ categories }: { categories: Category[] }) {
         </div>
 
         {/* search (mobile) */}
-        <form onSubmit={submitSearch} className="px-4 pb-2 md:hidden">
-          <div className="relative h-10">
-            <Search className="pointer-events-none absolute left-3 top-0 bottom-0 my-auto h-[18px] w-[18px] text-muted-foreground" />
+        <form onSubmit={submitSearch} className="px-3 pb-2 md:hidden">
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" width={18} height={18} />
             <input
               value={searchVal}
               onChange={(e) => setSearchVal(e.target.value)}
@@ -373,24 +283,6 @@ export function Header({ categories }: { categories: Category[] }) {
             style={{ color: "var(--deal)" }}
           >
             <Zap width={15} height={15} className="fill-current" /> Flash Sale
-          </button>
-          <button
-            onClick={() => navigate({ name: "catalog", sort: "sold" })}
-            className={cn(
-              "flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition hover:bg-muted",
-              view.name === "catalog" && view.sort === "sold" && "text-primary font-semibold"
-            )}
-          >
-            🏆 Best Sellers
-          </button>
-          <button
-            onClick={() => navigate({ name: "catalog", sort: "newest" })}
-            className={cn(
-              "flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition hover:bg-muted",
-              view.name === "catalog" && view.sort === "newest" && "text-primary font-semibold"
-            )}
-          >
-            ⭐ New Arrivals
           </button>
           {categories.map((c) => {
             const Icon = getCategoryIcon(c.icon);
@@ -434,33 +326,6 @@ export function Header({ categories }: { categories: Category[] }) {
               className="flex items-center gap-2 rounded-lg bg-muted px-3 py-2.5 text-sm font-medium"
             >
               <Package width={16} height={16} /> All Products
-            </button>
-            <button
-              onClick={() => {
-                navigate({ name: "catalog", sort: "sold" });
-                setMobileNav(false);
-              }}
-              className="flex items-center gap-2 rounded-lg bg-primary/10 px-3 py-2.5 text-sm font-semibold text-primary"
-            >
-              🏆 Best Sellers
-            </button>
-            <button
-              onClick={() => {
-                navigate({ name: "catalog", sort: "newest" });
-                setMobileNav(false);
-              }}
-              className="flex items-center gap-2 rounded-lg bg-muted px-3 py-2.5 text-sm font-medium"
-            >
-              ⭐ New Arrivals
-            </button>
-            <button
-              onClick={() => {
-                setAiChatOpen(true);
-                setMobileNav(false);
-              }}
-              className="flex items-center gap-2 rounded-lg bg-amber-500/10 px-3 py-2.5 text-sm font-semibold text-amber-600 dark:text-amber-400 col-span-2"
-            >
-              💬 Ask Rafi AI Shopping Assistant
             </button>
             {categories.map((c) => {
               const Icon = getCategoryIcon(c.icon);

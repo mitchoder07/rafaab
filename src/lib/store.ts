@@ -65,8 +65,6 @@ type State = {
   setAuthOpen: (open: boolean, mode?: "login" | "register") => void;
   aiChatOpen: boolean;
   setAiChatOpen: (open: boolean) => void;
-  quickViewProductId: string | null;
-  setQuickViewProductId: (id: string | null) => void;
   aiMessages: AIChatMsg[];
   addAiMessage: (m: AIChatMsg) => void;
   clearAiMessages: () => void;
@@ -174,8 +172,6 @@ export const useStore = create<State>()(
         set({ authOpen: open, authMode: mode || get().authMode }),
       aiChatOpen: false,
       setAiChatOpen: (open) => set({ aiChatOpen: open }),
-      quickViewProductId: null,
-      setQuickViewProductId: (id) => set({ quickViewProductId: id }),
       aiMessages: [],
       addAiMessage: (m) => set((s) => ({ aiMessages: [...s.aiMessages, m] })),
       clearAiMessages: () => set({ aiMessages: [] }),

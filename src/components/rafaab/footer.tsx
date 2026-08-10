@@ -46,9 +46,10 @@ export function Footer({ onNavigateCategory }: { onNavigateCategory?: () => void
       {/* main */}
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 py-10 sm:px-6 md:grid-cols-5">
         <div className="col-span-2">
-          <button onClick={() => navigate({ name: "home" })} className="flex items-center gap-2">
-            <img src="/logo-light.svg" alt="Rafaab" width={36} height={36} className="rounded-lg shadow-sm block dark:hidden" />
-            <img src="/logo-dark.svg" alt="Rafaab" width={36} height={36} className="rounded-lg shadow-sm hidden dark:block" />
+          <button onClick={() => navigate({ name: "home" })} className="flex items-center gap-1.5">
+            <span className="grid h-9 w-9 place-items-center rounded-xl brand-gradient text-white shadow-md">
+              <Sparkles width={18} height={18} />
+            </span>
             <span className="text-xl font-black brand-gradient-text">Rafaab</span>
           </button>
           <p className="mt-3 max-w-xs text-sm text-muted-foreground">
@@ -94,18 +95,18 @@ export function Footer({ onNavigateCategory }: { onNavigateCategory?: () => void
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><button onClick={() => setAiChatOpen(true)} className="transition hover:text-primary">Ask Rafi AI</button></li>
             <li><button onClick={() => navigate({ name: "orders" })} className="transition hover:text-primary">Track Order</button></li>
-            <li><button onClick={() => toast.info("Returns & Refunds", { description: "You can return any item within 7 days of delivery for a full refund. Contact support to start a return." })} className="transition hover:text-primary">Returns & Refunds</button></li>
-            <li><button onClick={() => toast.info("Shipping Info", { description: "Free shipping on orders over ₦50,000. Standard delivery takes 1-3 business days nationwide." })} className="transition hover:text-primary">Shipping Info</button></li>
+            <li><button className="transition hover:text-primary">Returns & Refunds</button></li>
+            <li><button className="transition hover:text-primary">Shipping Info</button></li>
           </ul>
         </div>
 
         <div>
           <h4 className="mb-3 text-sm font-bold">Company</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><button onClick={() => toast.info("About Rafaab", { description: "Rafaab is Nigeria's premium marketplace — AI-powered shopping, flash deals, and fast delivery, all in one place. Shop smarter, live better." })} className="transition hover:text-primary">About Rafaab</button></li>
-            <li><button onClick={() => toast.info("Sell on Rafaab", { description: "Want to reach thousands of customers? Sign up for a seller account and start listing your products today. Contact sellers@rafaab.com to get started." })} className="transition hover:text-primary">Sell on Rafaab</button></li>
-            <li><button onClick={() => toast.info("Careers at Rafaab", { description: "We're always looking for talented people. Send your CV to careers@rafaab.com and we'll be in touch when a role opens up." })} className="transition hover:text-primary">Careers</button></li>
-            <li><button onClick={() => toast.info("Contact Us", { description: "📧 support@rafaab.com\n📞 +234 800 111 2222\n💬 Chat with Rafi AI (bottom right) for instant help" })} className="transition hover:text-primary">Contact Us</button></li>
+            <li><button className="transition hover:text-primary">About Rafaab</button></li>
+            <li><button className="transition hover:text-primary">Sell on Rafaab</button></li>
+            <li><button className="transition hover:text-primary">Careers</button></li>
+            <li><button className="transition hover:text-primary">Contact Us</button></li>
           </ul>
         </div>
       </div>
