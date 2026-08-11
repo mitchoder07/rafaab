@@ -1,8 +1,19 @@
 import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Rafaab — Shop Smarter, Live Better",
@@ -11,25 +22,13 @@ export const metadata: Metadata = {
   keywords: ["Rafaab", "online shopping", "marketplace", "electronics", "fashion", "Nigeria", "ecommerce"],
   authors: [{ name: "Rafaab" }],
   icons: {
-    icon: [
-      { url: "/logo-light.svg", type: "image/svg+xml", media: "(prefers-color-scheme: light)" },
-      { url: "/logo-dark.svg", type: "image/svg+xml", media: "(prefers-color-scheme: dark)" },
-    ],
-    shortcut: "/logo-light.svg",
-    apple: "/logo-light.svg",
+    icon: "/logo.svg",
   },
   openGraph: {
     title: "Rafaab — Shop Smarter, Live Better",
     description: "Premium marketplace with AI shopping assistant, flash sales and fast delivery.",
     siteName: "Rafaab",
     type: "website",
-    images: ["/logo.svg"],
-  },
-  twitter: {
-    card: "summary",
-    title: "Rafaab — Shop Smarter, Live Better",
-    description: "Premium marketplace with AI shopping assistant, flash sales and fast delivery.",
-    images: ["/logo.svg"],
   },
 };
 
@@ -41,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className="font-sans antialiased bg-background text-foreground"
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           {children}

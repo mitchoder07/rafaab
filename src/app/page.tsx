@@ -8,7 +8,6 @@ import { Footer } from "@/components/rafaab/footer";
 import { CartDrawer } from "@/components/rafaab/cart-drawer";
 import { AuthModal } from "@/components/rafaab/auth-modal";
 import { AIChatWidget } from "@/components/rafaab/ai-chat-widget";
-import { QuickViewModal } from "@/components/rafaab/quick-view-modal";
 import { HomeView } from "@/components/rafaab/views/home-view";
 import { CatalogView } from "@/components/rafaab/views/catalog-view";
 import { ProductView } from "@/components/rafaab/views/product-view";
@@ -17,6 +16,10 @@ import { OrdersView } from "@/components/rafaab/views/orders-view";
 import { TrackView } from "@/components/rafaab/views/track-view";
 import { WishlistView } from "@/components/rafaab/views/wishlist-view";
 import { AdminView } from "@/components/rafaab/views/admin-view";
+import { SellerDashboardView } from "@/components/rafaab/views/seller-dashboard-view";
+import { SellerOnboardingView } from "@/components/rafaab/views/seller-onboarding-view";
+import { StoreView } from "@/components/rafaab/views/store-view";
+import { PaymentCallbackView } from "@/components/rafaab/views/payment-callback-view";
 import type { Category } from "@/lib/types";
 
 export default function Home() {
@@ -56,6 +59,10 @@ export default function Home() {
         {view.name === "track" && <TrackView orderId={view.orderId} />}
         {view.name === "wishlist" && <WishlistView />}
         {view.name === "admin" && <AdminView initialTab={view.tab} />}
+        {view.name === "seller" && <SellerDashboardView initialTab={view.tab} />}
+        {view.name === "seller-onboarding" && <SellerOnboardingView />}
+        {view.name === "store" && <StoreView storeSlug={view.storeSlug} />}
+        {view.name === "payment-callback" && <PaymentCallbackView reference={view.reference} />}
       </main>
 
       <Footer />
@@ -64,7 +71,6 @@ export default function Home() {
       <CartDrawer />
       <AuthModal />
       <AIChatWidget />
-      <QuickViewModal />
 
       {/* keep categoriesLoading referenced to avoid unused warning */}
       <span className="sr-only">{categoriesLoading ? "loading" : "ready"}</span>

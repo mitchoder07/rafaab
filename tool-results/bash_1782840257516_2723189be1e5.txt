@@ -1,0 +1,502 @@
+Started PID 1881
+--- log so far ---
+[resume] loaded partial with 0 top-level keys, 0 urls so far
+
+[run] 33 remaining tasks with concurrency=6
+
+[ERROR] "tablet device on table product" failed: Command failed: z-ai image-search -q tablet device on table product --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "tablet device on table product" -> 0 urls
+[ERROR] "wireless over-ear headphones product photo" failed: Command failed: z-ai image-search -q wireless over-ear headphones product photo --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "wireless over-ear headphones product photo" -> 0 urls
+[ERROR] "womens summer dress fashion clothing" failed: Command failed: z-ai image-search -q womens summer dress fashion clothing --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "womens summer dress fashion clothing" -> 0 urls
+[ERROR] "mens casual jacket fashion clothing" failed: Command failed: z-ai image-search -q mens casual jacket fashion clothing --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "mens casual jacket fashion clothing" -> 0 urls
+[ERROR] "white sneakers shoes product photo" failed: Command failed: z-ai image-search -q white sneakers shoes product photo --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "white sneakers shoes product photo" -> 0 urls
+[ERROR] "stainless steel cookware pots set kitchen" failed: Command failed: z-ai image-search -q stainless steel cookware pots set kitchen --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "stainless steel cookware pots set kitchen" -> 0 urls
+[ERROR] "designer sunglasses product photo" failed: Command failed: z-ai image-search -q designer sunglasses product photo --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "designer sunglasses product photo" -> 0 urls
+[ERROR] "air fryer kitchen appliance product" failed: Command failed: z-ai image-search -q air fryer kitchen appliance product --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "air fryer kitchen appliance product" -> 0 urls
+[ERROR] "makeup palette kit beauty product" failed: Command failed: z-ai image-search -q makeup palette kit beauty product --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "makeup palette kit beauty product" -> 0 urls
+[ERROR] "coffee maker machine kitchen product" failed: Command failed: z-ai image-search -q coffee maker machine kitchen product --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "coffee maker machine kitchen product" -> 0 urls
+[ERROR] "skincare serum bottles cosmetics beauty" failed: Command failed: z-ai image-search -q skincare serum bottles cosmetics beauty --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "skincare serum bottles cosmetics beauty" -> 0 urls
+[ERROR] "hair dryer product photo" failed: Command failed: z-ai image-search -q hair dryer product photo --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "hair dryer product photo" -> 0 urls
+[ERROR] "dumbbell weights set gym fitness" failed: Command failed: z-ai image-search -q dumbbell weights set gym fitness --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "dumbbell weights set gym fitness" -> 0 urls
+[ERROR] "yoga mat fitness exercise equipment" failed: Command failed: z-ai image-search -q yoga mat fitness exercise equipment --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "yoga mat fitness exercise equipment" -> 0 urls
+[ERROR] "camping tent outdoor gear" failed: Command failed: z-ai image-search -q camping tent outdoor gear --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "camping tent outdoor gear" -> 0 urls
+[ERROR] "kids building blocks toy set" failed: Command failed: z-ai image-search -q kids building blocks toy set --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "kids building blocks toy set" -> 0 urls
+[ERROR] "smartwatch fitness tracker on wrist" failed: Command failed: z-ai image-search -q smartwatch fitness tracker on wrist --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "smartwatch fitness tracker on wrist" -> 0 urls
+[ERROR] "remote control car toy" failed: Command failed: z-ai image-search -q remote control car toy --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "remote control car toy" -> 0 urls
+[ERROR] "coffee beans bag grocery" failed: Command failed: z-ai image-search -q coffee beans bag grocery --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "coffee beans bag grocery" -> 0 urls
+[ERROR] "bedding bed sheet set home" failed: Command failed: z-ai image-search -q bedding bed sheet set home --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "bedding bed sheet set home" -> 0 urls
+[ERROR] "action camera 4k product" failed: Command failed: z-ai image-search -q action camera 4k product --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "action camera 4k product" -> 0 urls
+[ERROR] "mechanical gaming keyboard rgb" failed: Command failed: z-ai image-search -q mechanical gaming keyboard rgb --count 4 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[product] "mechanical gaming keyboard rgb" -> 0 urls
+[ERROR] "online shopping sale banner colorful" failed: Command failed: z-ai image-search -q online shopping sale banner colorful --count 3 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+ero] "online shopping sale banner colorful" -> 0 urls
+[ERROR] "Electronics shopping category icon illustration" failed: Command failed: z-ai image-search -q Electronics shopping category icon illustration --count 1 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[category] "Electronics shopping category icon illustration" -> 0 urls
+[ERROR] "Phones & Tablets shopping category icon illustration" failed: Command failed: z-ai image-search -q Phones & Tablets shopping category icon illustration --count 1 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[category] "Phones & Tablets shopping category icon illustration" -> 0 urls
+[ERROR] "Fashion shopping category icon illustration" failed: Command failed: z-ai image-search -q Fashion shopping category icon illustration --count 1 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[category] "Fashion shopping category icon illustration" -> 0 urls
+[ERROR] "Home & Kitchen shopping category icon illustration" failed: Command failed: z-ai image-search -q Home & Kitchen shopping category icon illustration --count 1 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[category] "Home & Kitchen shopping category icon illustration" -> 0 urls
+[ERROR] "Beauty & Health shopping category icon illustration" failed: Command failed: z-ai image-search -q Beauty & Health shopping category icon illustration --count 1 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[category] "Beauty & Health shopping category icon illustration" -> 0 urls
+[ERROR] "Toys & Games shopping category icon illustration" failed: Command failed: z-ai image-search -q Toys & Games shopping category icon illustration --count 1 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[category] "Toys & Games shopping category icon illustration" -> 0 urls
+[ERROR] "Groceries shopping category icon illustration" failed: Command failed: z-ai image-search -q Groceries shopping category icon illustration --count 1 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[category] "Groceries shopping category icon illustration" -> 0 urls
+[ERROR] "Sports & Outdoors shopping category icon illustration" failed: Command failed: z-ai image-search -q Sports & Outdoors shopping category icon illustration --count 1 --gl us --no-rank
+Failed to make image search request: 356 |                 headers,
+357 |                 body: JSON.stringify(body),
+358 |             });
+359 |             if (!response.ok) {
+360 |                 const errorBody = await response.text();
+361 |                 throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                                ^
+error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+      at createImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/index.js:361:27)
+      at async handleImageSearch (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:823:49)
+      at async main (/home/z/.bun/install/global/node_modules/z-ai-web-dev-sdk/dist/cli.js:1083:23)
+
+❌ Error: API request failed with status 429: {"error":"Too many requests, please try again later"}
+
+[category] "Sports & Outdoors shopping category icon illustration" -> 0 urls

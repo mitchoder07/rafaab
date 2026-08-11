@@ -77,7 +77,18 @@ export async function GET(req: NextRequest) {
       orderBy,
       skip: limit ? 0 : (page - 1) * pageSize,
       take: limit || pageSize,
-      include: { category: true },
+      include: {
+        category: true,
+        store: {
+          select: {
+            id: true, ownerId: true, name: true, slug: true, logo: true, banner: true,
+            description: true, supportEmail: true, supportPhone: true, status: true,
+            vacationMode: true, commissionRate: true, productApprovalRequired: true,
+            rating: true, numReviews: true, availableBalance: true, pendingBalance: true,
+            lifetimeEarnings: true, createdAt: true,
+          },
+        },
+      },
     }),
   ]);
 

@@ -1,10 +1,11 @@
 "use client";
 
-import { Heart, ShoppingCart, Zap, Eye, Truck } from "lucide-react";
+import { Heart, ShoppingCart, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { useStore } from "@/lib/store";
 import { formatNaira, formatNumber } from "@/lib/format";
 import { StarRating } from "./star-rating";
+import { SellerBadge } from "./seller-badge";
 import { cn } from "@/lib/utils";
 import type { Product } from "@/lib/types";
 import { toast } from "sonner";
@@ -14,7 +15,6 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
   const addToCart = useStore((s) => s.addToCart);
   const toggleWishlist = useStore((s) => s.toggleWishlist);
   const isWishlisted = useStore((s) => s.wishlist.includes(product.id));
-  const setQuickViewProductId = useStore((s) => s.setQuickViewProductId);
 
   const price = product.discountPrice ?? product.price;
   const off = product.discountPercent || 0;
@@ -70,19 +70,6 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             </span>
           </div>
         )}
-
-        {/* quick view button on hover */}
-        <div className="absolute inset-x-0 bottom-2 flex justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-          <span
-            onClick={(e) => {
-              e.stopPropagation();
-              setQuickViewProductId(product.id);
-            }}
-            className="flex items-center gap-1 rounded-full bg-background/90 px-3 py-1 text-[11px] font-bold text-foreground shadow-md backdrop-blur hover:bg-primary hover:text-primary-foreground"
-          >
-            <Eye width={12} height={12} /> Quick view
-          </span>
-        </div>
       </button>
 
       {/* wishlist */}
@@ -113,6 +100,11 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
         >
           {product.title}
         </button>
+        {product.store && (
+          <div className="mt-1">
+            <SellerBadge store={product.store} />
+          </div>
+        )}
 
         <div className="mt-1.5 flex items-center gap-1">
           <StarRating rating={product.rating} size={12} showValue />
@@ -126,12 +118,6 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
               <span className="text-xs text-muted-foreground line-through">{formatNaira(product.price)}</span>
             )}
           </div>
-
-          {price >= 50000 && (
-            <div className="mt-0.5 flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
-              <Truck width={11} height={11} /> FREE Delivery
-            </div>
-          )}
 
           <button
             onClick={() => {

@@ -1,10 +1,11 @@
-// Rafaab e-commerce schema
+// Rafaab e-commerce schema (marketplace edition)
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -22,6 +23,12 @@ model User {
   orders        Order[]
   wishlistItems WishlistItem[]
   cart          Cart?
+  // Seller relations
+  store             Store?               @relation("StoreOwner")
+  applications      SellerApplication[]
+  reviewedApps      SellerApplication[]  @relation("ApplicationReviewer")
+  processedPayouts  Payout[]             @relation("PayoutProcessor")
+  storeReviews      StoreReview[]
 }
 
 model Address {
@@ -83,6 +90,11 @@ model Product {
   orderItems      OrderItem[]
   cartItems       CartItem[]
   wishlistItems   WishlistItem[]
+  // Marketplace fields
+  storeId          String?
+  store            Store?    @relation(fields: [storeId], references: [id])
+  approvalStatus   String    @default("approved") // approved | pending | rejected
+  rejectionReason  String?
 }
 
 model Review {
@@ -156,6 +168,10 @@ model OrderItem {
   quantity  Int
   order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   product   Product @relation(fields: [productId], references: [id])
+  // Marketplace fields
+  storeId   String?
+  store     Store?   @relation(fields: [storeId], references: [id])
+  earning   SellerEarning?
 }
 
 model WishlistItem {
@@ -167,4 +183,122 @@ model WishlistItem {
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@unique([userId, productId])
+}
+
+// ===== Marketplace models =====
+
+model Store {
+  id                      String              @id @default(cuid())
+  ownerId                 String              @unique
+  name                    String
+  slug                    String              @unique
+  logo                    String?
+  banner                  String?
+  description             String?
+  supportEmail            String?
+  supportPhone            String?
+  // state: pending (pre-approval) | approved | suspended | rejected
+  status                  String              @default("pending")
+  vacationMode            Boolean             @default(false)
+  // commission snapshot per store (admin can override per store)
+  commissionRate          Float               @default(0.10)
+  productApprovalRequired Boolean             @default(false)
+  // ratings
+  rating                  Float               @default(0)
+  numReviews              Int                 @default(0)
+  // payout bank details — JSON string, admin-only read
+  // { bankCode, bankName, accountNumber, accountName }
+  payoutDetails           String?
+  // balances in NGN
+  availableBalance        Float               @default(0)
+  pendingBalance          Float               @default(0)
+  lifetimeEarnings        Float               @default(0)
+  createdAt               DateTime            @default(now())
+  updatedAt               DateTime            @updatedAt
+
+  owner                   User                @relation("StoreOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  products                Product[]
+  payouts                 Payout[]
+  applications            SellerApplication[]
+  earnings                SellerEarning[]
+  reviews                 StoreReview[]
+  orderItems              OrderItem[]
+}
+
+model SellerApplication {
+  id              String    @id @default(cuid())
+  userId          String
+  storeId         String?
+  storeName       String
+  storeSlug       String
+  description     String?
+  supportEmail    String
+  supportPhone    String
+  businessType    String?   // individual | sme | corporate
+  categories      String?   // JSON: array of categoryIds
+  status          String    @default("pending") // pending | approved | rejected
+  rejectionReason String?
+  reviewedById    String?
+  submittedAt     DateTime  @default(now())
+  reviewedAt      DateTime?
+
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  store           Store?    @relation(fields: [storeId], references: [id])
+  reviewer        User?     @relation("ApplicationReviewer", fields: [reviewedById], references: [id])
+}
+
+model Payout {
+  id              String    @id @default(cuid())
+  storeId         String
+  amount          Float
+  status          String    @default("requested") // requested | approved | rejected | paid | failed
+  method          String    @default("bank_transfer")
+  reference       String?   // external payout reference (Paystack transfer code)
+  note            String?
+  bankDetails     String    // JSON snapshot at request time
+  requestedAt     DateTime  @default(now())
+  processedAt     DateTime?
+  processedById   String?
+
+  store           Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  processedBy     User?     @relation("PayoutProcessor", fields: [processedById], references: [id])
+}
+
+model SellerEarning {
+  id                String    @id @default(cuid())
+  orderItemId       String    @unique
+  storeId           String
+  grossAmount       Float     // price * qty
+  commissionRate    Float     // snapshot of store.commissionRate at sale time
+  commissionAmount  Float     // platform cut
+  netAmount         Float     // seller payout
+  status            String    @default("pending") // pending | released | refunded
+  createdAt         DateTime  @default(now())
+  releasedAt        DateTime?
+
+  orderItem         OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+  store             Store     @relation(fields: [storeId], references: [id])
+}
+
+model StoreReview {
+  id        String   @id @default(cuid())
+  storeId   String
+  userId    String
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+
+  store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([storeId, userId])
+}
+
+model PlatformSetting {
+  id                      String  @id @default("singleton")
+  defaultCommissionRate   Float   @default(0.10)
+  requireProductApproval  Boolean @default(false)
+  autoApproveSellers      Boolean @default(false)
+  minPayoutAmount         Float   @default(10000) // NGN 10,000
+  escrowReleaseOnDelivery Boolean @default(true)
 }
