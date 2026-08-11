@@ -1,10 +1,62 @@
 import { NextRequest, NextResponse } from "next/server";
-import ZAI from "z-ai-web-dev-sdk";
 import { db } from "@/lib/db";
 import { serializeProduct } from "@/lib/serialize";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
+
+type ChatMessage = { role: string; content: string };
+
+async function callLLM(messages: ChatMessage[]): Promise<string> {
+  const apiKey = process.env.OPENAI_API_KEY || process.env.AI_API_KEY;
+  const baseUrl = process.env.OPENAI_BASE_URL || process.env.AI_BASE_URL || "https://api.openai.com/v1";
+  const model = process.env.AI_MODEL || "gpt-4o-mini";
+
+  // If an external API key is configured, use fetch to call the OpenAI-compatible API
+  if (apiKey) {
+    const res = await fetch(`${baseUrl}/chat/completions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model,
+        messages,
+        max_tokens: 1000,
+        temperature: 0.7,
+      }),
+    });
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`API returned ${res.status}: ${errText.slice(0, 200)}`);
+    }
+    const data = await res.json();
+    return data.choices?.[0]?.message?.content || "I couldn't generate a response.";
+  }
+
+  // Fallback: try z-ai-web-dev-sdk (works in Z.ai sandbox)
+  try {
+    const ZAIModule = await import("z-ai-web-dev-sdk");
+    const ZAI = (ZAIModule as { default: { create: () => Promise<unknown> } }).default ?? (ZAIModule as unknown as { create: () => Promise<unknown> });
+    const zai = await ZAI.create();
+    const completion = await (
+      zai as {
+        chat: {
+          completions: {
+            create: (args: unknown) => Promise<{ choices: { message: { content: string } }[] }>;
+          };
+        };
+      }
+    ).chat.completions.create({
+      messages,
+      thinking: { type: "disabled" },
+    });
+    return completion.choices?.[0]?.message?.content || "I couldn't generate a response.";
+  } catch {
+    throw new Error("NO_LLM_CONFIGURED");
+  }
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}));
@@ -82,9 +134,7 @@ Only recommend products from the catalog below — never invent products or IDs.
 ${catalogLines}
 === End Catalog ===`;
 
-  const messages: { role: string; content: string }[] = [
-    { role: "system", content: systemPrompt },
-  ];
+  const messages: ChatMessage[] = [{ role: "system", content: systemPrompt }];
   if (Array.isArray(history)) {
     for (const m of history.slice(-10)) {
       if (m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string") {
@@ -95,13 +145,7 @@ ${catalogLines}
   messages.push({ role: "user", content: message });
 
   try {
-    const zai = await ZAI.create();
-    const completion = await zai.chat.completions.create({
-      messages,
-      thinking: { type: "disabled" },
-    });
-
-    const reply = completion.choices?.[0]?.message?.content || "I'm sorry, I couldn't generate a response. Could you rephrase that?";
+    const reply = await callLLM(messages);
 
     // Extract referenced product IDs and attach the full product objects so the UI can render chips
     const idMatches = [...reply.matchAll(/\[P:([^\]]+)\]/g)].map((m) => m[1].trim());
@@ -114,13 +158,19 @@ ${catalogLines}
     return NextResponse.json({ reply: cleanReply, recommended });
   } catch (err) {
     const errMsg = err instanceof Error ? err.message : String(err);
-    console.error("AI chat error:", errMsg);
-    return NextResponse.json(
-      {
-        reply: `I'm having trouble connecting right now. Please try again in a moment.\n\nIf this persists, make sure the z-ai-web-dev-sdk package is installed (run \`bun install\`). Error: ${errMsg.slice(0, 100)}`,
+
+    // If no LLM is configured, provide a helpful setup message
+    if (errMsg === "NO_LLM_CONFIGURED" || errMsg.includes("Configuration file not found")) {
+      return NextResponse.json({
+        reply: "Hi! I'm Rafi, your AI assistant. 🤖\n\nTo enable me, you need to add an AI API key to your environment:\n\n**Option 1 — OpenAI (recommended):**\n1. Get a key from https://platform.openai.com/api-keys\n2. Add to your `.env` file:\n```\nOPENAI_API_KEY=sk-your-key-here\n```\n\n**Option 2 — Groq (free):**\n1. Get a free key from https://console.groq.com/keys\n2. Add to your `.env` file:\n```\nOPENAI_API_KEY=gsk_your-key-here\nOPENAI_BASE_URL=https://api.groq.com/openai/v1\nAI_MODEL=llama-3.3-70b-versatile\n```\n\nAfter adding the key, restart the server and try again!",
         recommended: [],
-      },
-      { status: 200 }
-    );
+      }, { status: 200 });
+    }
+
+    console.error("AI chat error:", errMsg);
+    return NextResponse.json({
+      reply: `I'm having trouble connecting right now. Error: ${errMsg.slice(0, 150)}`,
+      recommended: [],
+    }, { status: 200 });
   }
 }
