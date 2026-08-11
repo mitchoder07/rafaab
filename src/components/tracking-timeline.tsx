@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Clock, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { TrackingEventData } from "@/lib/types";
@@ -48,16 +47,16 @@ export function TrackingTimeline({
           const event = getEventForStep(events, step.key);
           const Icon = step.icon;
           const isLast = idx === steps.length - 1;
-          // This segment's connector is filled if current status is past this step
           const segmentFilled = currentIdx > idx;
 
           return (
             <div key={step.key} className="flex">
-              {/* Icon + connector column — the connector extends down to meet the next icon */}
-              <div className="flex flex-col items-center">
+              {/* Icon + connector column */}
+              <div className="flex flex-col items-center self-stretch">
+                {/* Icon circle — solid background so NO line shows through */}
                 <div
                   className={cn(
-                    "z-10 grid h-8 w-8 shrink-0 place-items-center rounded-full border-2 transition",
+                    "relative z-10 grid h-8 w-8 shrink-0 place-items-center rounded-full border-2",
                     state === "done" && "border-primary bg-primary text-primary-foreground",
                     state === "current" && "border-primary bg-card text-primary",
                     state === "todo" && "border-border bg-card text-muted-foreground",
@@ -75,14 +74,15 @@ export function TrackingTimeline({
                     <Icon width={15} height={15} className="opacity-40" />
                   )}
                 </div>
-                {/* Connector line: fills the space below this icon down to the next icon */}
+                {/* Connector line: only in the GAP below this icon, down to the next icon.
+                    Never goes behind any icon. */}
                 {!isLast && (
-                  <div className={cn("w-0.5 flex-1", compact ? "my-1" : "my-1", segmentFilled ? "bg-primary" : "bg-border")} />
+                  <div className={cn("w-0.5 grow", compact ? "my-1 min-h-[12px]" : "my-1 min-h-[16px]", segmentFilled ? "bg-primary" : "bg-border")} />
                 )}
               </div>
 
-              {/* Content column — its bottom padding creates the gap that the connector fills */}
-              <div className={cn("flex-1 pl-3", isLast ? "pb-0" : compact ? "pb-3" : "pb-5")}>
+              {/* Content column */}
+              <div className={cn("flex-1 pl-3", isLast ? "pb-0" : compact ? "pb-2" : "pb-4")}>
                 <div className="flex items-center justify-between gap-2">
                   <p
                     className={cn(

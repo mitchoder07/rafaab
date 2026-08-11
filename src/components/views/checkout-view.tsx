@@ -67,53 +67,13 @@ export function CheckoutView() {
   const placeOrder = async () => {
     setLoading(true);
     try {
-      const cartItems = cart.map((l) => ({ productId: l.product.id, quantity: l.quantity }));
-      const commonPayload = {
-        items: cartItems,
+      const res = await apiPost<{ order: OrderData }>("/api/orders", {
+        items: cart.map((l) => ({ productId: l.product.id, quantity: l.quantity })),
         shippingAddress: address,
+        paymentMethod: payment,
         email,
         name: address.fullName,
         coupon: appliedCoupon || undefined,
-      };
-
-      if (payment === "card") {
-        // Card → Paystack redirect flow
-        try {
-          const res = await apiPost<{ authorization_url: string; reference: string; order: OrderData }>(
-            "/api/paystack/initialize",
-            commonPayload
-          );
-          addOrderNumber(res.order.orderNumber);
-          setSavedAddress(address);
-          // Redirect to Paystack's secure checkout page
-          window.location.href = res.authorization_url;
-          return;
-        } catch (payErr) {
-          // Paystack not configured (503) → fall back to demo mode for testing
-          const errMsg = (payErr as Error).message;
-          if (errMsg.includes("not configured")) {
-            const res = await apiPost<{ order: OrderData }>("/api/orders", {
-              ...commonPayload,
-              paymentMethod: "card",
-            });
-            setPlacedOrder(res.order);
-            addOrderNumber(res.order.orderNumber);
-            setLastOrder(res.order);
-            setSavedAddress(address);
-            clearCart();
-            setStep(3);
-            toast.success("Order placed! (Demo mode — add Paystack keys for live payments)");
-            window.scrollTo({ top: 0 });
-            return;
-          }
-          throw payErr;
-        }
-      }
-
-      // COD or Bank Transfer → create order directly
-      const res = await apiPost<{ order: OrderData }>("/api/orders", {
-        ...commonPayload,
-        paymentMethod: payment,
       });
       setPlacedOrder(res.order);
       addOrderNumber(res.order.orderNumber);
@@ -321,20 +281,21 @@ export function CheckoutView() {
               </div>
 
               {payment === "card" && (
-                <div className="space-y-3 rounded-xl border border-primary/30 bg-primary/5 p-4">
-                  <div className="flex items-center gap-2">
-                    <ShieldCheck width={18} height={18} className="text-primary" />
-                    <p className="text-sm font-bold">Secured by Paystack</p>
+                <div className="space-y-3 rounded-xl border border-border bg-muted/30 p-4">
+                  <p className="text-xs text-muted-foreground">Demo mode — no real payment will be processed.</p>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-semibold">Card Number</label>
+                    <input placeholder="4242 4242 4242 4242" className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-primary" />
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    You'll be redirected to Paystack's secure checkout to enter your card details. We never see or store your card information. Supports Visa, Mastercard, Verve, and bank transfer.
-                  </p>
-                  <div className="flex items-center gap-1.5 pt-1">
-                    {["VISA", "Mastercard", "Verve"].map((p) => (
-                      <span key={p} className="rounded border border-border bg-background px-2 py-1 text-[10px] font-bold text-muted-foreground">
-                        {p}
-                      </span>
-                    ))}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="mb-1.5 block text-xs font-semibold">Expiry</label>
+                      <input placeholder="MM/YY" className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-primary" />
+                    </div>
+                    <div>
+                      <label className="mb-1.5 block text-xs font-semibold">CVV</label>
+                      <input placeholder="123" className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-primary" />
+                    </div>
                   </div>
                 </div>
               )}
@@ -392,7 +353,7 @@ export function CheckoutView() {
                   <ArrowLeft width={16} height={16} /> Back
                 </Button>
                 <Button onClick={placeOrder} disabled={loading} className="flex-1 brand-gradient text-white">
-                  {loading ? <Loader2 className="animate-spin" width={17} height={17} /> : <>{payment === "card" ? "Pay with Paystack" : "Place Order"} · {formatNaira(total)}</>}
+                  {loading ? <Loader2 className="animate-spin" width={17} height={17} /> : <>Place Order · {formatNaira(total)}</>}
                 </Button>
               </div>
             </motion.div>
