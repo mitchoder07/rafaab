@@ -12,9 +12,9 @@ import type { Product } from "@/lib/types";
 
 const SUGGESTIONS = [
   "I need a phone with a great camera under ₦200k",
-  "Best headphones for working out?",
-  "Gift ideas for my mom's birthday",
-  "What's on flash sale today?",
+  "Explain how to start a business in Nigeria",
+  "What's the difference between React and Vue?",
+  "Tips for improving my credit score",
 ];
 
 export function AIChatWidget() {
@@ -105,7 +105,7 @@ export function AIChatWidget() {
                 </span>
                 <div>
                   <p className="text-sm font-bold leading-tight">Rafi</p>
-                  <p className="text-[11px] text-white/85">AI Shopping Assistant</p>
+                  <p className="text-[11px] text-white/85">AI Assistant · Ask anything</p>
                 </div>
               </div>
               <div className="flex items-center gap-1">
@@ -136,8 +136,8 @@ export function AIChatWidget() {
                     <Sparkles width={30} height={30} />
                   </span>
                   <h3 className="text-lg font-bold">Hi, I'm Rafi 👋</h3>
-                  <p className="mt-1 max-w-[280px] text-sm text-muted-foreground">
-                    Your personal AI shopping assistant. Ask me to find products, compare options, or get recommendations.
+                  <p className="mt-1 max-w-[290px] text-sm text-muted-foreground">
+                    Your AI assistant for anything — shopping advice, general knowledge, tech help, business tips, and more. Ask me anything!
                   </p>
                   <div className="mt-4 w-full space-y-2">
                     {SUGGESTIONS.map((s) => (
@@ -240,7 +240,7 @@ export function AIChatWidget() {
                   ref={inputRef}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask Rafi anything..."
+                  placeholder="Ask me anything..."
                   className="h-11 flex-1 rounded-full border border-border bg-muted/50 px-4 text-sm outline-none focus:border-primary focus:bg-background focus:ring-2 focus:ring-primary/20"
                 />
                 <Button
