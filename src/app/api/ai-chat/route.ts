@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import ZAI from "z-ai-web-dev-sdk";
 import { db } from "@/lib/db";
 import { serializeProduct } from "@/lib/serialize";
 
@@ -94,23 +95,13 @@ ${catalogLines}
   messages.push({ role: "user", content: message });
 
   try {
-    const ZAIModule = await import("z-ai-web-dev-sdk");
-    const ZAI = (ZAIModule as { default: { create: () => Promise<unknown> } }).default ?? (ZAIModule as unknown as { create: () => Promise<unknown> });
     const zai = await ZAI.create();
-    const completion = await (
-      zai as {
-        chat: {
-          completions: {
-            create: (args: unknown) => Promise<{ choices: { message: { content: string } }[] }>;
-          };
-        };
-      }
-    ).chat.completions.create({
+    const completion = await zai.chat.completions.create({
       messages,
       thinking: { type: "disabled" },
     });
 
-    const reply = completion.choices[0]?.message?.content || "I'm sorry, I couldn't generate a response. Could you rephrase that?";
+    const reply = completion.choices?.[0]?.message?.content || "I'm sorry, I couldn't generate a response. Could you rephrase that?";
 
     // Extract referenced product IDs and attach the full product objects so the UI can render chips
     const idMatches = [...reply.matchAll(/\[P:([^\]]+)\]/g)].map((m) => m[1].trim());
@@ -122,9 +113,13 @@ ${catalogLines}
 
     return NextResponse.json({ reply: cleanReply, recommended });
   } catch (err) {
-    console.error("AI chat error:", err);
+    const errMsg = err instanceof Error ? err.message : String(err);
+    console.error("AI chat error:", errMsg);
     return NextResponse.json(
-      { reply: "I'm having trouble connecting right now. Please try again in a moment.", recommended: [] },
+      {
+        reply: `I'm having trouble connecting right now. Please try again in a moment.\n\nIf this persists, make sure the z-ai-web-dev-sdk package is installed (run \`bun install\`). Error: ${errMsg.slice(0, 100)}`,
+        recommended: [],
+      },
       { status: 200 }
     );
   }

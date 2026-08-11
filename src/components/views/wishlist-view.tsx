@@ -1,16 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Heart, ArrowRight, Loader2 } from "lucide-react";
+import { Heart, ArrowRight, Loader2, Trash2, AlertCircle } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { apiGet } from "@/lib/api";
 import { ProductCard } from "../product-card";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import type { Product } from "@/lib/types";
 
 export function WishlistView() {
   const navigate = useStore((s) => s.navigate);
   const wishlist = useStore((s) => s.wishlist);
+  const toggleWishlist = useStore((s) => s.toggleWishlist);
   const wishlistKey = wishlist.join(",");
   const [products, setProducts] = useState<Product[]>([]);
   const [loadedKey, setLoadedKey] = useState<string | null>(null);
@@ -36,6 +38,12 @@ export function WishlistView() {
   }, [wishlistKey]);
 
   const effectiveProducts = wishlist.length === 0 ? [] : products;
+  const hasStaleItems = !loading && wishlist.length > 0 && effectiveProducts.length === 0;
+
+  const clearWishlist = () => {
+    wishlist.forEach((id) => toggleWishlist(id));
+    toast.success("Wishlist cleared");
+  };
 
   return (
     <div className="mx-auto max-w-7xl px-3 py-5 sm:px-6">
@@ -44,7 +52,7 @@ export function WishlistView() {
         <div>
           <h1 className="text-2xl font-extrabold sm:text-3xl">My Wishlist</h1>
           <p className="text-sm text-muted-foreground">
-            {wishlist.length} {wishlist.length === 1 ? "item" : "items"} saved
+            {effectiveProducts.length} {effectiveProducts.length === 1 ? "item" : "items"} saved
           </p>
         </div>
       </div>
@@ -55,12 +63,32 @@ export function WishlistView() {
         </div>
       ) : effectiveProducts.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-border py-16 text-center">
-          <Heart width={40} height={40} className="mx-auto text-muted-foreground/40" />
-          <p className="mt-3 text-lg font-semibold">Your wishlist is empty</p>
-          <p className="text-sm text-muted-foreground">Tap the heart on any product to save it for later.</p>
-          <Button onClick={() => navigate({ name: "catalog" })} className="mt-4 brand-gradient text-white">
-            Discover Products <ArrowRight width={16} height={16} />
-          </Button>
+          {hasStaleItems ? (
+            <>
+              <AlertCircle width={40} height={40} className="mx-auto text-amber-500" />
+              <p className="mt-3 text-lg font-semibold">Some items are no longer available</p>
+              <p className="text-sm text-muted-foreground">
+                The products in your wishlist may have been removed or updated. Try clearing your wishlist and adding new items.
+              </p>
+              <div className="mt-4 flex justify-center gap-2">
+                <Button onClick={clearWishlist} variant="outline">
+                  <Trash2 width={16} height={16} /> Clear Wishlist
+                </Button>
+                <Button onClick={() => navigate({ name: "catalog" })} className="brand-gradient text-white">
+                  Browse Products <ArrowRight width={16} height={16} />
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <Heart width={40} height={40} className="mx-auto text-muted-foreground/40" />
+              <p className="mt-3 text-lg font-semibold">Your wishlist is empty</p>
+              <p className="text-sm text-muted-foreground">Tap the heart on any product to save it for later.</p>
+              <Button onClick={() => navigate({ name: "catalog" })} className="mt-4 brand-gradient text-white">
+                Discover Products <ArrowRight width={16} height={16} />
+              </Button>
+            </>
+          )}
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
