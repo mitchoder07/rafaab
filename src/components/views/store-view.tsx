@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Store as StoreIcon, Star, MapPin, Mail, Phone, Loader2, ArrowRight } from "lucide-react";
+import { Store as StoreIcon, Star, MapPin, Mail, Phone, Loader2, ArrowRight, ArrowLeft } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { apiGet } from "@/lib/api";
 import { ProductCard, ProductCardSkeleton } from "../product-card";
@@ -46,8 +46,8 @@ export function StoreView({ storeSlug }: { storeSlug: string }) {
       {/* Store banner */}
       <div className="relative h-40 sm:h-56 brand-gradient overflow-hidden">
         {store.banner && <img src={store.banner} alt="" className="h-full w-full object-cover" />}
-        <button onClick={back} className="absolute left-4 top-4 rounded-full bg-white/20 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur hover:bg-white/30">
-          ← Back
+        <button onClick={back} className="absolute left-4 top-4 z-10 flex items-center gap-1 rounded-full bg-black/30 px-4 py-2 text-xs font-semibold text-white backdrop-blur-md transition hover:bg-black/50">
+          <ArrowLeft width={14} height={14} /> Back
         </button>
       </div>
 
