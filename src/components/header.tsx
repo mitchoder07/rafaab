@@ -107,7 +107,7 @@ export function Header({ categories }: { categories: Category[] }) {
       {/* Main bar */}
       <div
         className={cn(
-          "border-b border-border bg-background/95 backdrop-blur transition-shadow",
+          "border-b border-border bg-background/95 backdrop-blur transition-shadow relative z-50",
           scrolled && "shadow-sm"
         )}
       >
@@ -287,7 +287,7 @@ export function Header({ categories }: { categories: Category[] }) {
       </div>
 
       {/* Category nav (desktop) */}
-      <nav className="hidden border-b border-border bg-background/95 backdrop-blur md:block">
+      <nav className="hidden border-b border-border bg-background/95 backdrop-blur md:block relative z-30">
         <div className="mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto px-3 py-1.5 sm:px-6 no-scrollbar">
           <button
             onClick={() => navigate({ name: "catalog" })}
