@@ -5,7 +5,7 @@ import { hashPassword } from "../src/lib/auth";
 // Load image map produced by the image-fetch subagent
 const imageMap: Record<string, string[]> = require("../seed-data/images.json");
 const heroImages: string[] = imageMap["__hero__"] || [];
-const categoryImages: Record<string, string[]> = imageMap["__categories__"] || {};
+const categoryImages = (imageMap["__categories__"] || {}) as Record<string, string[]>;
 
 function imgs(query: string, fallbackSeed: string): string[] {
   const urls = imageMap[query];
@@ -885,6 +885,12 @@ const reviewComments = [
 
 async function main() {
   console.log("Clearing existing data...");
+  await db.payout.deleteMany();
+  await db.sellerEarning.deleteMany();
+  await db.storeReview.deleteMany();
+  await db.sellerApplication.deleteMany();
+  await db.store.deleteMany();
+  await db.platformSetting.deleteMany();
   await db.trackingEvent.deleteMany();
   await db.wishlistItem.deleteMany();
   await db.cartItem.deleteMany();
@@ -955,7 +961,7 @@ async function main() {
     const images = imgs(p.imageQuery, p.fallbackSeed);
     const flashEnd =
       p.flags.flashSale && p.discountPrice
-        ? new Date(now + (6 + Math.floor(Math.random() * 18)) * 3600 * 1000) // 6-24h from now
+        ? new Date(now + (1 + Math.floor(Math.random() * 11)) * 3600 * 1000) // 1-12h from now
         : null;
 
     const product = await db.product.create({
@@ -1000,8 +1006,10 @@ async function main() {
 
   // Save hero images to a small meta file the API can read
   const fs = require("fs");
+  const path = require("path");
+  const metaPath = path.join(process.cwd(), "seed-data", "meta.json");
   fs.writeFileSync(
-    "/home/z/my-project/seed-data/meta.json",
+    metaPath,
     JSON.stringify({ hero: heroImages }, null, 2)
   );
 
@@ -1114,9 +1122,119 @@ async function main() {
     }
   }
 
+  // Create platform settings singleton
+  await db.platformSetting.upsert({
+    where: { id: "singleton" },
+    create: { id: "singleton", defaultCommissionRate: 0.10, requireProductApproval: false, autoApproveSellers: false, minPayoutAmount: 10000, escrowReleaseOnDelivery: true },
+    update: {},
+  });
+
+  // Create demo sellers with stores
+  const sellerUser1 = await db.user.create({
+    data: {
+      email: "seller1@rafaab.com",
+      name: "TechHub Vendor",
+      password: hashPassword("seller1234"),
+      phone: "+234 803 111 1111",
+    },
+  });
+  const sellerStore1 = await db.store.create({
+    data: {
+      ownerId: sellerUser1.id,
+      name: "TechHub Nigeria",
+      slug: "techhub-nigeria",
+      description: "Your one-stop shop for quality electronics and gadgets. Fast delivery, genuine products.",
+      supportEmail: "support@techhub.ng",
+      supportPhone: "+234 803 111 1111",
+      status: "approved",
+      commissionRate: 0.10,
+      payoutDetails: JSON.stringify({ bankName: "Access Bank", accountNumber: "0123456789", accountName: "TechHub NG Ltd", bankCode: "044" }),
+      availableBalance: 45000,
+      pendingBalance: 12000,
+      lifetimeEarnings: 157000,
+    },
+  });
+
+  const sellerUser2 = await db.user.create({
+    data: {
+      email: "seller2@rafaab.com",
+      name: "Fashion Forward",
+      password: hashPassword("seller1234"),
+      phone: "+234 805 222 2222",
+    },
+  });
+  const sellerStore2 = await db.store.create({
+    data: {
+      ownerId: sellerUser2.id,
+      name: "Fashion Forward Boutique",
+      slug: "fashion-forward",
+      description: "Trendy fashion at affordable prices. New arrivals weekly!",
+      supportEmail: "hello@fashionforward.ng",
+      supportPhone: "+234 805 222 2222",
+      status: "approved",
+      commissionRate: 0.12,
+      payoutDetails: JSON.stringify({ bankName: "GTBank", accountNumber: "0987654321", accountName: "Fashion Forward Ltd", bankCode: "058" }),
+      availableBalance: 23000,
+      pendingBalance: 8000,
+      lifetimeEarnings: 89000,
+    },
+  });
+
+  // Assign some existing products to sellers (reassign a few from each category)
+  const allProductsList = await db.product.findMany();
+  // Assign 4 products to TechHub (electronics/phones)
+  const techProducts = allProductsList.filter((_, i) => [0, 1, 5, 6].includes(i));
+  for (const p of techProducts) {
+    await db.product.update({ where: { id: p.id }, data: { storeId: sellerStore1.id } });
+  }
+  // Assign 3 products to Fashion Forward (fashion)
+  const fashionProducts = allProductsList.filter((_, i) => [11, 12, 14].includes(i));
+  for (const p of fashionProducts) {
+    await db.product.update({ where: { id: p.id }, data: { storeId: sellerStore2.id } });
+  }
+
+  // Create a pending application
+  await db.sellerApplication.create({
+    data: {
+      userId: guestUser.id,
+      storeName: "Home Comfort Store",
+      storeSlug: "home-comfort-store",
+      description: "Quality home and kitchen products for every Nigerian home.",
+      supportEmail: "home@comfort.ng",
+      supportPhone: "+234 807 333 3333",
+      businessType: "sme",
+      status: "pending",
+    },
+  });
+
+  // Create a completed payout for TechHub
+  await db.payout.create({
+    data: {
+      storeId: sellerStore1.id,
+      amount: 30000,
+      status: "paid",
+      method: "bank_transfer",
+      bankDetails: JSON.stringify({ bankName: "Access Bank", accountNumber: "0123456789", accountName: "TechHub NG Ltd", bankCode: "044" }),
+      processedAt: new Date(Date.now() - 7 * 86400000),
+      processedById: adminUser.id,
+    },
+  });
+  // Create a pending payout request
+  await db.payout.create({
+    data: {
+      storeId: sellerStore2.id,
+      amount: 20000,
+      status: "requested",
+      method: "bank_transfer",
+      bankDetails: JSON.stringify({ bankName: "GTBank", accountNumber: "0987654321", accountName: "Fashion Forward Ltd", bankCode: "058" }),
+    },
+  });
+
   console.log(`Seed complete. Categories: ${categories.length}, Products: ${products.length}`);
   console.log(`Demo user: ${demoUser.email}`);
   console.log(`Admin user: ${adminUser.email} (admin1234)`);
+  console.log(`Seller 1: seller1@rafaab.com / seller1234 (TechHub Nigeria)`);
+  console.log(`Seller 2: seller2@rafaab.com / seller1234 (Fashion Forward)`);
 }
 
 function slugFor(p: ProductDef): string {

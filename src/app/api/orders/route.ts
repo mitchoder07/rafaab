@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getSessionUserId } from "@/lib/auth";
 import { serializeOrder } from "@/lib/order-serialize";
+import { applyEarningsOnOrder } from "@/lib/commission";
 import type { AddressData } from "@/lib/types";
 
 function genOrderNumber(): string {
@@ -94,6 +95,7 @@ export async function POST(req: NextRequest) {
       image: imgs[0] || "",
       price: unit,
       quantity: qty,
+      storeId: p.storeId,
     });
   }
 
@@ -152,6 +154,12 @@ export async function POST(req: NextRequest) {
         },
       })
     )
+  );
+
+  // Apply commission earnings to sellers
+  await applyEarningsOnOrder(
+    order.items.map((it) => ({ id: it.id, productId: it.productId, price: it.price, quantity: it.quantity })),
+    products.map((p) => ({ id: p.id, storeId: p.storeId, discountPrice: p.discountPrice, price: p.price }))
   );
 
   return NextResponse.json({ order: serializeOrder(order) });

@@ -21,6 +21,9 @@ import {
   CheckCircle2,
   ChevronRight,
   Save,
+  Store as StoreIcon,
+  Wallet,
+  Settings as SettingsIcon,
 } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { apiGet, apiPost, apiPatch, apiDelete } from "@/lib/api";
@@ -41,9 +44,9 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import type { Category, Product, OrderData } from "@/lib/types";
+import type { Category, Product, OrderData, StoreData, PlatformSettings } from "@/lib/types";
 
-type Tab = "overview" | "products" | "orders";
+type Tab = "overview" | "products" | "orders" | "sellers" | "payouts" | "settings";
 
 type Stats = {
   totalProducts: number;
@@ -106,8 +109,8 @@ export function AdminView({ initialTab = "overview" }: { initialTab?: Tab }) {
     <div className="mx-auto max-w-7xl px-3 py-5 sm:px-6">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-extrabold sm:text-3xl">Seller Dashboard</h1>
-          <p className="text-sm text-muted-foreground">Manage your products, orders and track performance</p>
+          <h1 className="text-2xl font-extrabold sm:text-3xl">Admin Panel</h1>
+          <p className="text-sm text-muted-foreground">Manage the marketplace, products, orders and sellers</p>
         </div>
         <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">Admin</span>
       </div>
@@ -118,6 +121,9 @@ export function AdminView({ initialTab = "overview" }: { initialTab?: Tab }) {
           { id: "overview", label: "Overview", icon: LayoutDashboard },
           { id: "products", label: "Products", icon: Package },
           { id: "orders", label: "Orders", icon: ShoppingBag },
+          { id: "sellers", label: "Sellers", icon: StoreIcon },
+          { id: "payouts", label: "Payouts", icon: Wallet },
+          { id: "settings", label: "Settings", icon: SettingsIcon },
         ] as const).map((t) => (
           <button
             key={t.id}
@@ -135,6 +141,9 @@ export function AdminView({ initialTab = "overview" }: { initialTab?: Tab }) {
       {tab === "overview" && <OverviewTab categories={categories} />}
       {tab === "products" && <ProductsTab categories={categories} />}
       {tab === "orders" && <OrdersTab />}
+      {tab === "sellers" && <SellersTab />}
+      {tab === "payouts" && <AdminPayoutsTab />}
+      {tab === "settings" && <MarketplaceSettingsTab />}
     </div>
   );
 }
@@ -692,6 +701,283 @@ function OrdersTab() {
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+/* ---------- Sellers Tab ---------- */
+function SellersTab() {
+  const navigate = useStore((s) => s.navigate);
+  const [stores, setStores] = useState<(StoreData & { owner?: { name: string; email: string }; productCount?: number; payoutCount?: number })[]>([]);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [loadedKey, setLoadedKey] = useState<string | null>(null);
+  const [applications, setApplications] = useState<{ id: string; storeName: string; storeSlug: string; status: string; supportEmail: string; supportPhone: string; submittedAt: string; user?: { name: string; email: string } }[]>([]);
+  const [reloadTick, setReloadTick] = useState(0);
+  const queryKey = `${statusFilter}|${reloadTick}`;
+  const loading = loadedKey !== queryKey;
+
+  const load = () => setReloadTick((t) => t + 1);
+
+  useEffect(() => {
+    let alive = true;
+    apiGet<{ stores: (StoreData & { owner?: { name: string; email: string }; productCount?: number; payoutCount?: number })[] }>(`/api/admin/sellers${statusFilter !== "all" ? `?status=${statusFilter}` : ""}`)
+      .then((r) => { if (!alive) return; setStores(r.stores); })
+      .catch(() => { if (!alive) return; setStores([]); });
+    apiGet<{ applications: { id: string; storeName: string; storeSlug: string; status: string; supportEmail: string; supportPhone: string; submittedAt: string; user?: { name: string; email: string } }[] }>(`/api/admin/applications${statusFilter === "pending" ? "?status=pending" : ""}`)
+      .then((r) => { if (!alive) return; setApplications(r.applications); setLoadedKey(queryKey); })
+      .catch(() => { if (!alive) return; setApplications([]); setLoadedKey(queryKey); });
+    return () => { alive = false; };
+  }, [queryKey, statusFilter]);
+
+  const approveApp = async (appId: string) => {
+    try {
+      await apiPatch("/api/admin/applications", { applicationId: appId, action: "approve" });
+      toast.success("Application approved");
+      load();
+    } catch (e) { toast.error((e as Error).message); }
+  };
+  const rejectApp = async (appId: string) => {
+    const reason = prompt("Reason for rejection (optional):") || "";
+    try {
+      await apiPatch("/api/admin/applications", { applicationId: appId, action: "reject", rejectionReason: reason });
+      toast.success("Application rejected");
+      load();
+    } catch (e) { toast.error((e as Error).message); }
+  };
+  const updateStoreStatus = async (storeId: string, status: string) => {
+    try {
+      await apiPatch(`/api/admin/sellers/${storeId}/status`, { status });
+      toast.success(`Store ${status}`);
+      load();
+    } catch (e) { toast.error((e as Error).message); }
+  };
+  const updateCommission = async (storeId: string, rate: number) => {
+    try {
+      await apiPatch(`/api/admin/sellers/${storeId}/commission`, { commissionRate: rate });
+      toast.success("Commission updated");
+      load();
+    } catch (e) { toast.error((e as Error).message); }
+  };
+
+  const pendingApps = applications?.filter((a) => a.status === "pending") || [];
+
+  return (
+    <div className="space-y-5">
+      {/* Pending applications */}
+      {pendingApps.length > 0 && (
+        <div>
+          <h3 className="mb-3 text-sm font-bold">Pending Applications ({pendingApps.length})</h3>
+          <div className="space-y-2">
+            {pendingApps.map((a) => (
+              <div key={a.id} className="rounded-xl border border-amber-300 bg-amber-50 p-3 dark:border-amber-800 dark:bg-amber-900/20">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <p className="text-sm font-bold">{a.storeName}</p>
+                    <p className="text-xs text-muted-foreground">{a.user?.name} · {a.user?.email}</p>
+                    <p className="text-xs text-muted-foreground">{a.supportEmail} · {a.supportPhone}</p>
+                  </div>
+                  <div className="flex gap-1">
+                    <button onClick={() => approveApp(a.id)} className="rounded-lg bg-green-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-green-700">Approve</button>
+                    <button onClick={() => rejectApp(a.id)} className="rounded-lg border border-red-300 px-3 py-1.5 text-xs font-bold text-red-600 hover:bg-red-50">Reject</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Filter + stores list */}
+      <div>
+        <div className="mb-3 flex items-center gap-2 overflow-x-auto no-scrollbar">
+          {["all", "approved", "pending", "suspended", "rejected"].map((s) => (
+            <button key={s} onClick={() => setStatusFilter(s)} className={cn("shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold capitalize transition", statusFilter === s ? "brand-gradient text-white" : "border border-border text-muted-foreground hover:bg-muted")}>{s}</button>
+          ))}
+        </div>
+        {loading ? (
+          <div className="flex justify-center py-8"><Loader2 className="animate-spin text-primary" width={24} height={24} /></div>
+        ) : stores.length === 0 ? (
+          <div className="rounded-xl border border-dashed border-border py-8 text-center text-sm text-muted-foreground">No stores found.</div>
+        ) : (
+          <div className="space-y-2">
+            {stores.map((s) => (
+              <div key={s.id} className="rounded-xl border border-border bg-card p-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <button onClick={() => navigate({ name: "store", storeSlug: s.slug })} className="grid h-10 w-10 place-items-center overflow-hidden rounded-lg brand-gradient text-white">
+                      {s.logo ? <img src={s.logo} alt="" className="h-full w-full object-cover" /> : <StoreIcon width={18} height={18} />}
+                    </button>
+                    <div>
+                      <p className="text-sm font-bold">{s.name}</p>
+                      <p className="text-xs text-muted-foreground">{s.owner?.name} · {s.owner?.email}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-muted-foreground">{s.productCount} products</span>
+                    <span className={cn("rounded-full px-2 py-0.5 text-[10px] font-bold", s.status === "approved" ? "bg-green-100 text-green-700" : s.status === "suspended" ? "bg-red-100 text-red-700" : "bg-amber-100 text-amber-700")}>{s.status}</span>
+                    <Select value={s.status} onValueChange={(v) => updateStoreStatus(s.id, v)}>
+                      <SelectTrigger className="h-8 w-[130px] text-xs"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="approved">Approved</SelectItem>
+                        <SelectItem value="suspended">Suspended</SelectItem>
+                        <SelectItem value="pending">Pending</SelectItem>
+                        <SelectItem value="rejected">Rejected</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div className="mt-2 flex items-center gap-3 border-t border-border pt-2 text-xs">
+                  <span className="text-muted-foreground">Commission: <span className="font-bold text-foreground">{(s.commissionRate * 100).toFixed(0)}%</span></span>
+                  <input type="number" step="0.05" min="0" max="1" defaultValue={s.commissionRate} onBlur={(e) => { const v = parseFloat(e.target.value); if (v !== s.commissionRate && !isNaN(v)) updateCommission(s.id, v); }} className="h-7 w-20 rounded border border-border px-2 text-xs outline-none focus:border-primary" />
+                  <span className="text-muted-foreground">Available: <span className="font-bold text-foreground">{formatNaira(s.availableBalance)}</span></span>
+                  <span className="text-muted-foreground">Lifetime: <span className="font-bold text-foreground">{formatNaira(s.lifetimeEarnings)}</span></span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Admin Payouts Tab ---------- */
+function AdminPayoutsTab() {
+  const [payouts, setPayouts] = useState<{ id: string; storeId: string; storeName: string; owner: { name: string; email: string }; amount: number; status: string; bankDetails: string; requestedAt: string; processedAt: string | null }[]>([]);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [loadedKey, setLoadedKey] = useState<string | null>(null);
+  const [reloadTick, setReloadTick] = useState(0);
+  const queryKey = `${statusFilter}|${reloadTick}`;
+  const loading = loadedKey !== queryKey;
+
+  const load = () => setReloadTick((t) => t + 1);
+
+  useEffect(() => {
+    let alive = true;
+    apiGet<{ payouts: { id: string; storeId: string; storeName: string; owner: { name: string; email: string }; amount: number; status: string; bankDetails: string; requestedAt: string; processedAt: string | null }[] }>(`/api/admin/payouts${statusFilter !== "all" ? `?status=${statusFilter}` : ""}`)
+      .then((r) => { if (!alive) return; setPayouts(r.payouts); setLoadedKey(queryKey); })
+      .catch(() => { if (!alive) return; setPayouts([]); setLoadedKey(queryKey); });
+    return () => { alive = false; };
+  }, [queryKey, statusFilter]);
+
+  const updateStatus = async (id: string, status: string) => {
+    try {
+      await apiPatch(`/api/admin/payouts/${id}/status`, { status });
+      toast.success(`Payout marked ${status}`);
+      load();
+    } catch (e) { toast.error((e as Error).message); }
+  };
+
+  if (loading) return <div className="flex justify-center py-12"><Loader2 className="animate-spin text-primary" width={24} height={24} /></div>;
+
+  return (
+    <div>
+      <div className="mb-4 flex items-center gap-2 overflow-x-auto no-scrollbar">
+        {["all", "requested", "approved", "paid", "rejected"].map((s) => (
+          <button key={s} onClick={() => setStatusFilter(s)} className={cn("shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold capitalize transition", statusFilter === s ? "brand-gradient text-white" : "border border-border text-muted-foreground hover:bg-muted")}>{s}</button>
+        ))}
+      </div>
+      {payouts.length === 0 ? (
+        <div className="rounded-xl border border-dashed border-border py-8 text-center text-sm text-muted-foreground">No payouts found.</div>
+      ) : (
+        <div className="space-y-2">
+          {payouts.map((p) => {
+            let bank = {};
+            try { bank = JSON.parse(p.bankDetails); } catch {}
+            return (
+              <div key={p.id} className="rounded-xl border border-border bg-card p-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <p className="text-sm font-bold">{formatNaira(p.amount)}</p>
+                    <p className="text-xs text-muted-foreground">{p.storeName} · {p.owner.name}</p>
+                    <p className="text-xs text-muted-foreground">{(bank as { bankName?: string; accountNumber?: string; accountName?: string }).bankName} · ••••{(bank as { accountNumber?: string }).accountNumber?.slice(-4)}</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={cn("rounded-full px-2 py-0.5 text-[10px] font-bold", p.status === "paid" ? "bg-green-100 text-green-700" : p.status === "rejected" ? "bg-red-100 text-red-700" : "bg-amber-100 text-amber-700")}>{p.status}</span>
+                    <Select value={p.status} onValueChange={(v) => updateStatus(p.id, v)}>
+                      <SelectTrigger className="h-8 w-[120px] text-xs"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="approved">Approved</SelectItem>
+                        <SelectItem value="paid">Paid</SelectItem>
+                        <SelectItem value="rejected">Rejected</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ---------- Marketplace Settings Tab ---------- */
+function MarketplaceSettingsTab() {
+  const [settings, setSettings] = useState<PlatformSettings | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    apiGet<{ settings: PlatformSettings }>("/api/admin/marketplace-settings")
+      .then((r) => setSettings(r.settings))
+      .catch(() => toast.error("Failed to load settings"));
+  }, []);
+
+  const save = async () => {
+    if (!settings) return;
+    setSaving(true);
+    try {
+      await apiPatch("/api/admin/marketplace-settings", settings);
+      toast.success("Settings saved");
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (!settings) return <div className="flex justify-center py-12"><Loader2 className="animate-spin text-primary" width={24} height={24} /></div>;
+
+  return (
+    <div className="max-w-2xl space-y-4">
+      <div className="rounded-2xl border border-border bg-card p-4">
+        <h3 className="mb-3 text-sm font-bold">Commission & Payouts</h3>
+        <div className="space-y-3">
+          <div>
+            <label className="mb-1 block text-xs font-semibold">Default Commission Rate (0-1)</label>
+            <input type="number" step="0.01" min="0" max="1" value={settings.defaultCommissionRate} onChange={(e) => setSettings({ ...settings, defaultCommissionRate: parseFloat(e.target.value) || 0 })} className="h-10 w-full rounded-lg border border-border px-3 text-sm outline-none focus:border-primary" />
+            <p className="mt-1 text-xs text-muted-foreground">Platform takes {Math.round(settings.defaultCommissionRate * 100)}% of each sale. Sellers receive {Math.round((1 - settings.defaultCommissionRate) * 100)}%.</p>
+          </div>
+          <div>
+            <label className="mb-1 block text-xs font-semibold">Minimum Payout Amount (₦)</label>
+            <input type="number" value={settings.minPayoutAmount} onChange={(e) => setSettings({ ...settings, minPayoutAmount: parseFloat(e.target.value) || 0 })} className="h-10 w-full rounded-lg border border-border px-3 text-sm outline-none focus:border-primary" />
+          </div>
+        </div>
+      </div>
+      <div className="rounded-2xl border border-border bg-card p-4">
+        <h3 className="mb-3 text-sm font-bold">Approval & Automation</h3>
+        <div className="space-y-3">
+          {[
+            { key: "requireProductApproval", label: "Require product approval", desc: "New seller products must be approved by admin before going live" },
+            { key: "autoApproveSellers", label: "Auto-approve seller applications", desc: "Skip manual review — sellers get approved instantly on application" },
+            { key: "escrowReleaseOnDelivery", label: "Escrow release on delivery", desc: "Hold seller earnings until order is marked delivered" },
+          ].map((opt) => (
+            <div key={opt.key} className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium">{opt.label}</p>
+                <p className="text-xs text-muted-foreground">{opt.desc}</p>
+              </div>
+              <button onClick={() => setSettings({ ...settings, [opt.key]: !settings[opt.key as keyof PlatformSettings] })} className={cn("relative h-7 w-12 rounded-full transition", settings[opt.key as keyof PlatformSettings] ? "bg-primary" : "bg-muted")}>
+                <span className={cn("absolute top-1 h-5 w-5 rounded-full bg-white shadow transition", settings[opt.key as keyof PlatformSettings] ? "left-6" : "left-1")} />
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+      <Button onClick={save} disabled={saving} className="w-full brand-gradient text-white">
+        {saving ? <Loader2 className="animate-spin" width={16} height={16} /> : <Save width={16} height={16} />} Save Settings
+      </Button>
     </div>
   );
 }

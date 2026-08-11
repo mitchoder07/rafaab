@@ -15,6 +15,8 @@ import {
   LogOut,
   Sparkles,
   LayoutDashboard,
+  Truck,
+  Store,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useStore } from "@/lib/store";
@@ -55,15 +57,21 @@ export function Header({ categories }: { categories: Category[] }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close account dropdown when clicking outside
+  // Close account dropdown when clicking outside (with small delay for touch)
   useEffect(() => {
     if (!accountOpen) return;
     const handler = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target.closest("[data-account-dropdown]")) setAccountOpen(false);
     };
-    document.addEventListener("click", handler);
-    return () => document.removeEventListener("click", handler);
+    // Delay adding the listener so the opening click doesn't immediately close it
+    const timer = setTimeout(() => {
+      document.addEventListener("click", handler);
+    }, 100);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener("click", handler);
+    };
   }, [accountOpen]);
 
   const submitSearch = (e: React.FormEvent) => {
@@ -107,12 +115,11 @@ export function Header({ categories }: { categories: Category[] }) {
           {/* logo */}
           <button
             onClick={() => navigate({ name: "home" })}
-            className="flex shrink-0 items-center gap-1.5"
+            className="flex shrink-0 items-center gap-2"
             aria-label="Rafaab home"
           >
-            <span className="grid h-9 w-9 place-items-center rounded-xl brand-gradient text-white shadow-md">
-              <Sparkles width={18} height={18} />
-            </span>
+            <img src="/logo-light.svg" alt="Rafaab" width={36} height={36} className="rounded-lg shadow-sm block dark:hidden" />
+            <img src="/logo-dark.svg" alt="Rafaab" width={36} height={36} className="rounded-lg shadow-sm hidden dark:block" />
             <span className="text-xl font-black tracking-tight brand-gradient-text">Rafaab</span>
           </button>
 
@@ -152,6 +159,14 @@ export function Header({ categories }: { categories: Category[] }) {
             </button>
 
             <button
+              onClick={() => navigate({ name: "orders" })}
+              aria-label="Track orders"
+              className="grid h-9 w-9 place-items-center rounded-full text-foreground/70 transition hover:bg-muted md:hidden"
+            >
+              <Truck width={18} height={18} />
+            </button>
+
+            <button
               onClick={() => navigate({ name: "wishlist" })}
               aria-label="Wishlist"
               className="relative grid h-9 w-9 place-items-center rounded-full text-foreground/70 transition hover:bg-muted"
@@ -179,8 +194,8 @@ export function Header({ categories }: { categories: Category[] }) {
                   <span className="hidden max-w-20 truncate font-medium sm:block">{user.name.split(" ")[0]}</span>
                 </button>
                 <div
-                  className={`absolute right-0 top-full z-50 w-56 origin-top-right rounded-xl border border-border bg-popover p-1.5 shadow-lg transition-all ${
-                    accountOpen ? "visible opacity-100 translate-y-0" : "invisible opacity-0 -translate-y-1"
+                  className={`absolute right-0 top-full z-[60] w-56 origin-top-right rounded-xl border border-border bg-popover p-1.5 shadow-xl transition-all ${
+                    accountOpen ? "visible opacity-100 translate-y-0" : "invisible opacity-0 -translate-y-1 pointer-events-none"
                   }`}
                 >
                   <div className="border-b border-border px-3 py-2">
@@ -199,12 +214,18 @@ export function Header({ categories }: { categories: Category[] }) {
                   >
                     <Heart width={16} height={16} /> Wishlist
                   </button>
+                  <button
+                    onClick={() => { navigate({ name: "seller" }); setAccountOpen(false); }}
+                    className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
+                  >
+                    <Store width={16} height={16} /> Seller Dashboard
+                  </button>
                   {user.role === "admin" && (
                     <button
                       onClick={() => { navigate({ name: "admin" }); setAccountOpen(false); }}
-                      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
+                      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-foreground/70 transition hover:bg-muted"
                     >
-                      <LayoutDashboard width={16} height={16} /> Seller Dashboard
+                      <LayoutDashboard width={16} height={16} /> Admin Panel
                     </button>
                   )}
                   <button
@@ -252,9 +273,9 @@ export function Header({ categories }: { categories: Category[] }) {
         </div>
 
         {/* search (mobile) */}
-        <form onSubmit={submitSearch} className="px-3 pb-2 md:hidden">
-          <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" width={18} height={18} />
+        <form onSubmit={submitSearch} className="px-4 pb-2 md:hidden">
+          <div className="relative h-10">
+            <Search className="pointer-events-none absolute left-3 top-0 bottom-0 my-auto h-[18px] w-[18px] text-muted-foreground" />
             <input
               value={searchVal}
               onChange={(e) => setSearchVal(e.target.value)}

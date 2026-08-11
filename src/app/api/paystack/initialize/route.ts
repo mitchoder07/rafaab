@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { getSessionUserId } from "@/lib/auth";
 import { serializeOrder } from "@/lib/order-serialize";
 import { initializeTransaction, generateReference, isPaystackConfigured } from "@/lib/paystack";
+import { applyEarningsOnOrder } from "@/lib/commission";
 import type { AddressData } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
@@ -68,7 +69,7 @@ export async function POST(req: NextRequest) {
     const unit = p.discountPrice ?? p.price;
     subtotal += unit * qty;
     const imgs: string[] = JSON.parse(p.images);
-    orderItemsData.push({ productId: p.id, title: p.title, image: imgs[0] || "", price: unit, quantity: qty });
+    orderItemsData.push({ productId: p.id, title: p.title, image: imgs[0] || "", price: unit, quantity: qty, storeId: p.storeId });
   }
   if (orderItemsData.length === 0) {
     return NextResponse.json({ error: "No valid items in cart" }, { status: 400 });
@@ -115,6 +116,12 @@ export async function POST(req: NextRequest) {
     },
     include: { items: true, trackingEvents: true },
   });
+
+  // Apply commission earnings to sellers (same as direct order route)
+  await applyEarningsOnOrder(
+    order.items.map((it) => ({ id: it.id, productId: it.productId, price: it.price, quantity: it.quantity })),
+    products.map((p) => ({ id: p.id, storeId: p.storeId, discountPrice: p.discountPrice, price: p.price }))
+  );
 
   // Initialize Paystack transaction
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";

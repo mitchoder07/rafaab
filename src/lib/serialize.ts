@@ -1,9 +1,58 @@
-import type { Product, Review } from "./types";
-import type { Product as PrismaProduct, Review as PrismaReview } from "@prisma/client";
+import type { Product, Review, StoreData } from "./types";
+import type { Product as PrismaProduct, Review as PrismaReview, Store as PrismaStore } from "@prisma/client";
 
-type ProductWithCategory = PrismaProduct & { category?: { id: string; name: string; slug: string; icon: string | null; image: string | null; color: string | null } };
+type StoreFields = {
+  id: string;
+  ownerId: string;
+  name: string;
+  slug: string;
+  logo: string | null;
+  banner: string | null;
+  description: string | null;
+  supportEmail: string | null;
+  supportPhone: string | null;
+  status: string;
+  vacationMode: boolean;
+  commissionRate: number;
+  productApprovalRequired: boolean;
+  rating: number;
+  numReviews: number;
+  availableBalance: number;
+  pendingBalance: number;
+  lifetimeEarnings: number;
+  createdAt: Date;
+};
 
-export function serializeProduct(p: ProductWithCategory): Product {
+type ProductWithRelations = PrismaProduct & {
+  category?: { id: string; name: string; slug: string; icon: string | null; image: string | null; color: string | null };
+  store?: StoreFields | null;
+};
+
+export function serializeStore(s: StoreFields): StoreData {
+  return {
+    id: s.id,
+    ownerId: s.ownerId,
+    name: s.name,
+    slug: s.slug,
+    logo: s.logo,
+    banner: s.banner,
+    description: s.description,
+    supportEmail: s.supportEmail,
+    supportPhone: s.supportPhone,
+    status: s.status,
+    vacationMode: s.vacationMode,
+    commissionRate: s.commissionRate,
+    productApprovalRequired: s.productApprovalRequired,
+    rating: s.rating,
+    numReviews: s.numReviews,
+    availableBalance: s.availableBalance,
+    pendingBalance: s.pendingBalance,
+    lifetimeEarnings: s.lifetimeEarnings,
+    createdAt: s.createdAt.toISOString(),
+  };
+}
+
+export function serializeProduct(p: ProductWithRelations): Product {
   let images: string[] = [];
   try {
     images = JSON.parse(p.images);
@@ -58,6 +107,10 @@ export function serializeProduct(p: ProductWithCategory): Product {
           color: p.category.color,
         }
       : undefined,
+    storeId: p.storeId,
+    store: p.store ? serializeStore(p.store) : null,
+    approvalStatus: p.approvalStatus,
+    rejectionReason: p.rejectionReason,
     effectivePrice,
     discountPercent,
   };

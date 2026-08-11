@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getAdminUser } from "@/lib/admin";
+import { releaseEarningsOnDelivery, refundEarningsOnCancel } from "@/lib/commission";
 
 const STATUS_NOTES: Record<string, { note: string; location: string }> = {
   processing: { note: "Order packed and ready for dispatch.", location: "Rafaab Fulfillment Center" },
@@ -48,6 +49,13 @@ export async function PATCH(
     },
     include: { items: true, trackingEvents: true },
   });
+
+  // Commission: release on delivery, refund on cancellation
+  if (status === "delivered" && order.status !== "delivered") {
+    await releaseEarningsOnDelivery(id);
+  } else if (status === "cancelled" && order.status !== "cancelled") {
+    await refundEarningsOnCancel(id);
+  }
 
   return NextResponse.json({ order: updated });
 }
