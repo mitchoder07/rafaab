@@ -29,6 +29,10 @@ async function callLLM(messages: ChatMessage[]): Promise<string> {
     });
     if (!res.ok) {
       const errText = await res.text();
+      // If model not found, try to provide a helpful message
+      if (res.status === 404 && errText.includes("does not exist")) {
+        throw new Error(`Model "${model}" not found. Check https://console.groq.com/docs/models for valid model names. Try: llama-3.1-8b-instant or llama-3.3-70b-versatile`);
+      }
       throw new Error(`API returned ${res.status}: ${errText.slice(0, 200)}`);
     }
     const data = await res.json();

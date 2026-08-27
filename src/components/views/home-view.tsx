@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronRight, Zap, Sparkles, TrendingUp, Gift } from "lucide-react";
+import { ChevronRight, Zap, Bot, TrendingUp, Gift } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { apiGet } from "@/lib/api";
 import { formatNaira, isFlashActive } from "@/lib/format";
@@ -114,7 +114,7 @@ export function HomeView({ categories }: { categories: Category[] }) {
                     transition={{ duration: 0.5, delay: 0.1 }}
                   >
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-bold backdrop-blur">
-                      <Sparkles width={13} height={13} /> Welcome to Rafaab
+                      <Bot width={13} height={13} /> Welcome to Rafaab
                     </span>
                     <h1 className="mt-3 max-w-md text-3xl font-black leading-tight sm:text-5xl">
                       Shop Smarter,<br />Live Better
@@ -255,7 +255,7 @@ export function HomeView({ categories }: { categories: Category[] }) {
             { icon: TrendingUp, title: "Best Prices", sub: "Unbeatable deals daily" },
             { icon: Zap, title: "Fast Delivery", sub: "1-3 days nationwide" },
             { icon: Gift, title: "Daily Rewards", sub: "Earn with every order" },
-            { icon: Sparkles, title: "AI Assistant", sub: "Ask Rafi anything" },
+            { icon: Bot, title: "AI Assistant", sub: "Ask Rafi anything" },
           ].map((v) => (
             <div key={v.title} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">

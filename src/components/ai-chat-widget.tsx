@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Sparkles, X, Send, Loader2, ShoppingBag, RotateCcw } from "lucide-react";
+import { Bot, X, Send, Loader2, ShoppingBag, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "@/lib/store";
 import { apiPost } from "@/lib/api";
@@ -78,7 +78,7 @@ export function AIChatWidget() {
             className="fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full brand-gradient px-4 py-3.5 text-white shadow-2xl transition hover:scale-105 sm:bottom-6 sm:right-6"
           >
             <span className="relative">
-              <Sparkles width={22} height={22} />
+              <Bot width={22} height={22} />
               <span className="absolute -right-1 -top-1 h-2.5 w-2.5 animate-ping rounded-full bg-white" />
               <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-white" />
             </span>
@@ -101,7 +101,7 @@ export function AIChatWidget() {
             <div className="flex items-center justify-between brand-gradient px-4 py-3.5 text-white">
               <div className="flex items-center gap-2.5">
                 <span className="grid h-9 w-9 place-items-center rounded-full bg-white/20 backdrop-blur">
-                  <Sparkles width={18} height={18} />
+                  <Bot width={18} height={18} />
                 </span>
                 <div>
                   <p className="text-sm font-bold leading-tight">Rafi</p>
@@ -133,9 +133,9 @@ export function AIChatWidget() {
               {messages.length === 0 && (
                 <div className="flex h-full flex-col items-center justify-center text-center">
                   <span className="mb-3 grid h-16 w-16 place-items-center rounded-2xl brand-gradient text-white shadow-lg">
-                    <Sparkles width={30} height={30} />
+                    <Bot width={30} height={30} />
                   </span>
-                  <h3 className="text-lg font-bold">Hi, I'm Rafi 👋</h3>
+                  <h3 className="text-lg font-bold">Hi, I'm Rafi</h3>
                   <p className="mt-1 max-w-[290px] text-sm text-muted-foreground">
                     Your AI assistant for anything — shopping advice, general knowledge, tech help, business tips, and more. Ask me anything!
                   </p>

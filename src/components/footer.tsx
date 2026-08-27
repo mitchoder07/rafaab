@@ -1,6 +1,6 @@
 "use client";
 
-import { Sparkles, Facebook, Instagram, Twitter, Youtube, Send, Shield, Truck, RotateCcw, Headset } from "lucide-react";
+import { Facebook, Instagram, Twitter, Youtube, Send, Shield, Truck, RotateCcw, Headset } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { toast } from "sonner";
 import { useState } from "react";

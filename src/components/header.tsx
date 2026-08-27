@@ -13,7 +13,7 @@ import {
   Zap,
   Package,
   LogOut,
-  Sparkles,
+  Bot,
   LayoutDashboard,
   Truck,
   Store,
@@ -146,7 +146,7 @@ export function Header({ categories }: { categories: Category[] }) {
               onClick={() => setAiChatOpen(true)}
               className="hidden items-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary transition hover:bg-primary/10 lg:flex"
             >
-              <Sparkles width={14} height={14} /> Ask Rafi
+              <Bot width={14} height={14} /> Ask Rafi
             </button>
 
             <button
