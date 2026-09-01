@@ -29,8 +29,8 @@ async function callLLM(messages: ChatMessage[]): Promise<string> {
     });
     if (!res.ok) {
       const errText = await res.text();
-      // 401 = invalid API key
-      if (res.status === 401) {
+      // 401 or 403 = invalid/blocked API key
+      if (res.status === 401 || res.status === 403) {
         throw new Error("INVALID_API_KEY");
       }
       // 404 = model not found
@@ -137,6 +137,9 @@ Only recommend products from the catalog below — never invent products or IDs.
 - Use Nigerian English context when relevant (Naira pricing, local references)
 - When you don't know something, say so honestly rather than making things up
 - For code/technical questions, you can include code snippets
+- DO NOT use em dashes (—) or en dashes (–). Use regular hyphens (-) or commas instead
+- Use markdown for formatting: **bold** for emphasis, bullet lists with - for items, # for headings
+- Keep formatting clean and readable. Avoid excessive markdown symbols
 
 === Rafaab Product Catalog ===
 ${catalogLines}

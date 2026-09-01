@@ -41,7 +41,6 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  /* Rafaab brand tokens */
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
   --color-deal: var(--deal);
@@ -49,78 +48,104 @@
 
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.99 0.005 60);
-  --foreground: oklch(0.18 0.01 30);
+
+  /* Background — clean white */
+  --background: oklch(0.99 0.003 180);
+  --foreground: oklch(0.20 0.02 180);
+
+  /* Cards — pure white */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.01 30);
+  --card-foreground: oklch(0.20 0.02 180);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.01 30);
-  /* Rafaab coral — warm, premium, distinct from Jumia orange / Lazada blue / AliExpress red */
-  --primary: oklch(0.64 0.215 32);
-  --primary-foreground: oklch(0.99 0.01 60);
-  --brand: oklch(0.64 0.215 32);
-  --brand-foreground: oklch(0.99 0.01 60);
-  --deal: oklch(0.62 0.24 145);
-  --secondary: oklch(0.96 0.01 60);
-  --secondary-foreground: oklch(0.25 0.02 30);
-  --muted: oklch(0.965 0.008 60);
-  --muted-foreground: oklch(0.5 0.02 30);
-  --accent: oklch(0.95 0.03 60);
-  --accent-foreground: oklch(0.25 0.02 30);
-  --destructive: oklch(0.58 0.24 27);
-  --border: oklch(0.91 0.008 60);
-  --input: oklch(0.91 0.008 60);
-  --ring: oklch(0.64 0.215 32);
-  --chart-1: oklch(0.64 0.215 32);
-  --chart-2: oklch(0.7 0.18 85);
-  --chart-3: oklch(0.62 0.24 145);
-  --chart-4: oklch(0.6 0.2 280);
-  --chart-5: oklch(0.65 0.22 350);
-  --sidebar: oklch(0.985 0.005 60);
-  --sidebar-foreground: oklch(0.18 0.01 30);
-  --sidebar-primary: oklch(0.64 0.215 32);
-  --sidebar-primary-foreground: oklch(0.99 0.01 60);
-  --sidebar-accent: oklch(0.95 0.03 60);
-  --sidebar-accent-foreground: oklch(0.25 0.02 30);
-  --sidebar-border: oklch(0.91 0.008 60);
-  --sidebar-ring: oklch(0.64 0.215 32);
+  --popover-foreground: oklch(0.20 0.02 180);
+
+  /* PRIMARY — Sharp Deep Teal (#0A6E6F) — vibrant, professional */
+  --primary: oklch(0.45 0.09 180);
+  --primary-foreground: oklch(0.99 0 0);
+  --brand: oklch(0.45 0.09 180);
+  --brand-foreground: oklch(0.99 0 0);
+
+  /* DEAL/FLASH — Burnt Orange (#CC5500) — energetic, solid */
+  --deal: oklch(0.55 0.16 45);
+
+  /* Secondary — light teal tint */
+  --secondary: oklch(0.95 0.01 180);
+  --secondary-foreground: oklch(0.25 0.03 180);
+
+  /* Muted — very light teal-gray */
+  --muted: oklch(0.96 0.006 180);
+  --muted-foreground: oklch(0.50 0.02 180);
+
+  /* Accent — gold (#F4C430) for highlights, CTAs */
+  --accent: oklch(0.82 0.14 85);
+  --accent-foreground: oklch(0.25 0.04 85);
+
+  /* Destructive — red */
+  --destructive: oklch(0.55 0.22 27);
+
+  /* Borders — subtle teal-gray */
+  --border: oklch(0.90 0.006 180);
+  --input: oklch(0.90 0.006 180);
+  --ring: oklch(0.45 0.09 180);
+
+  /* Chart colors */
+  --chart-1: oklch(0.45 0.09 180);
+  --chart-2: oklch(0.82 0.14 85);
+  --chart-3: oklch(0.62 0.12 160);
+  --chart-4: oklch(0.55 0.16 45);
+  --chart-5: oklch(0.70 0.10 250);
+
+  /* Sidebar */
+  --sidebar: oklch(0.97 0.005 180);
+  --sidebar-foreground: oklch(0.20 0.02 180);
+  --sidebar-primary: oklch(0.45 0.09 180);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.92 0.01 180);
+  --sidebar-accent-foreground: oklch(0.25 0.03 180);
+  --sidebar-border: oklch(0.90 0.006 180);
+  --sidebar-ring: oklch(0.45 0.09 180);
 }
 
 .dark {
-  --background: oklch(0.16 0.01 30);
-  --foreground: oklch(0.97 0.005 60);
-  --card: oklch(0.21 0.012 30);
-  --card-foreground: oklch(0.97 0.005 60);
-  --popover: oklch(0.21 0.012 30);
-  --popover-foreground: oklch(0.97 0.005 60);
-  --primary: oklch(0.7 0.2 35);
-  --primary-foreground: oklch(0.16 0.01 30);
-  --brand: oklch(0.7 0.2 35);
-  --brand-foreground: oklch(0.16 0.01 30);
-  --deal: oklch(0.72 0.2 150);
-  --secondary: oklch(0.27 0.015 30);
-  --secondary-foreground: oklch(0.97 0.005 60);
-  --muted: oklch(0.25 0.012 30);
-  --muted-foreground: oklch(0.7 0.015 60);
-  --accent: oklch(0.3 0.02 35);
-  --accent-foreground: oklch(0.97 0.005 60);
-  --destructive: oklch(0.7 0.19 22);
+  /* Dark mode — deep teal-black */
+  --background: oklch(0.15 0.02 180);
+  --foreground: oklch(0.95 0.01 180);
+  --card: oklch(0.20 0.02 180);
+  --card-foreground: oklch(0.95 0.01 180);
+  --popover: oklch(0.20 0.02 180);
+  --popover-foreground: oklch(0.95 0.01 180);
+
+  --primary: oklch(0.65 0.08 180);
+  --primary-foreground: oklch(0.15 0.02 180);
+  --brand: oklch(0.65 0.08 180);
+  --brand-foreground: oklch(0.15 0.02 180);
+  --deal: oklch(0.65 0.16 45);
+
+  --secondary: oklch(0.26 0.02 180);
+  --secondary-foreground: oklch(0.95 0.01 180);
+  --muted: oklch(0.24 0.015 180);
+  --muted-foreground: oklch(0.68 0.02 180);
+  --accent: oklch(0.75 0.12 85);
+  --accent-foreground: oklch(0.15 0.02 180);
+  --destructive: oklch(0.65 0.20 22);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 14%);
-  --ring: oklch(0.7 0.2 35);
-  --chart-1: oklch(0.7 0.2 35);
-  --chart-2: oklch(0.75 0.18 85);
-  --chart-3: oklch(0.7 0.2 150);
-  --chart-4: oklch(0.68 0.2 280);
-  --chart-5: oklch(0.7 0.22 350);
-  --sidebar: oklch(0.21 0.012 30);
-  --sidebar-foreground: oklch(0.97 0.005 60);
-  --sidebar-primary: oklch(0.7 0.2 35);
-  --sidebar-primary-foreground: oklch(0.16 0.01 30);
-  --sidebar-accent: oklch(0.3 0.02 35);
-  --sidebar-accent-foreground: oklch(0.97 0.005 60);
+  --ring: oklch(0.65 0.08 180);
+
+  --chart-1: oklch(0.65 0.08 180);
+  --chart-2: oklch(0.75 0.12 85);
+  --chart-3: oklch(0.62 0.12 160);
+  --chart-4: oklch(0.65 0.16 45);
+  --chart-5: oklch(0.70 0.10 250);
+
+  --sidebar: oklch(0.20 0.02 180);
+  --sidebar-foreground: oklch(0.95 0.01 180);
+  --sidebar-primary: oklch(0.65 0.08 180);
+  --sidebar-primary-foreground: oklch(0.15 0.02 180);
+  --sidebar-accent: oklch(0.26 0.02 180);
+  --sidebar-accent-foreground: oklch(0.95 0.01 180);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.7 0.2 35);
+  --sidebar-ring: oklch(0.65 0.08 180);
 }
 
 @layer base {
@@ -133,20 +158,21 @@
   }
 }
 
-/* Rafaab utility classes */
+/* ===== Rafaab utility classes — SOLID colors, minimal gradients ===== */
+
+/* Primary solid teal — used everywhere brand-gradient was used before */
 @utility brand-gradient {
-  background-image: linear-gradient(135deg, oklch(0.66 0.22 28) 0%, oklch(0.68 0.21 55) 50%, oklch(0.72 0.19 85) 100%);
+  background-color: oklch(0.45 0.09 180);
 }
 
+/* Solid teal text — replaces gradient text */
 @utility brand-gradient-text {
-  background-image: linear-gradient(135deg, oklch(0.62 0.22 28) 0%, oklch(0.66 0.21 50) 55%, oklch(0.7 0.19 85) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: oklch(0.45 0.09 180);
 }
 
+/* Deal/flash sale — solid burnt orange */
 @utility deal-gradient {
-  background-image: linear-gradient(135deg, oklch(0.6 0.24 145) 0%, oklch(0.58 0.2 170) 100%);
+  background-color: oklch(0.55 0.16 45);
 }
 
 /* Custom scrollbar */
@@ -158,14 +184,14 @@
   background: transparent;
 }
 .scroll-thin::-webkit-scrollbar-thumb {
-  background: oklch(0.8 0.02 60);
+  background: oklch(0.80 0.01 180);
   border-radius: 9999px;
 }
 .dark .scroll-thin::-webkit-scrollbar-thumb {
-  background: oklch(0.4 0.02 30);
+  background: oklch(0.40 0.02 180);
 }
 .scroll-thin::-webkit-scrollbar-thumb:hover {
-  background: oklch(0.7 0.02 60);
+  background: oklch(0.70 0.01 180);
 }
 
 /* Hide scrollbar for horizontal rails */
@@ -200,7 +226,7 @@
   100% { background-position: 1000px 0; }
 }
 .shimmer {
-  background: linear-gradient(90deg, oklch(0.92 0.01 60) 0%, oklch(0.96 0.01 60) 50%, oklch(0.92 0.01 60) 100%);
+  background: linear-gradient(90deg, oklch(0.93 0.005 180) 0%, oklch(0.96 0.005 180) 50%, oklch(0.93 0.005 180) 100%);
   background-size: 1000px 100%;
   animation: shimmer 2s infinite linear;
 }
