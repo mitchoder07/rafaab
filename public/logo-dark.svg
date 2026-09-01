@@ -6,9 +6,9 @@
     </style>
   </defs>
   <g class="rafaab-breathe">
-    <circle cx="40" cy="40" r="38" fill="#1A5A5B"/>
-    <circle cx="40" cy="40" r="37" fill="none" stroke="#0F3D3E" stroke-width="1.5"/>
-    <circle cx="40" cy="40" r="33" fill="none" stroke="#0F3D3E" stroke-width="0.8" opacity="0.5"/>
+    <circle cx="40" cy="40" r="38" fill="#0A6E6F"/>
+    <circle cx="40" cy="40" r="37" fill="none" stroke="#0A6E6F" stroke-width="1.5"/>
+    <circle cx="40" cy="40" r="33" fill="none" stroke="#0A6E6F" stroke-width="0.8" opacity="0.5"/>
   </g>
   <circle cx="40" cy="11" r="1.5" fill="#F4C430" opacity="0.9"/>
   <circle cx="40" cy="69" r="1.5" fill="#F4C430" opacity="0.9"/>

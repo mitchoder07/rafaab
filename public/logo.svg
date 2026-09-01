@@ -7,7 +7,7 @@
   </defs>
   <!-- Deep teal amulet disc -->
   <g class="rafaab-breathe">
-    <circle cx="40" cy="40" r="38" fill="#0F3D3E"/>
+    <circle cx="40" cy="40" r="38" fill="#0A6E6F"/>
     <circle cx="40" cy="40" r="37" fill="none" stroke="#0A2E2F" stroke-width="1.5"/>
     <circle cx="40" cy="40" r="33" fill="none" stroke="#0A2E2F" stroke-width="0.8" opacity="0.5"/>
   </g>

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Bot, X, Send, Loader2, ShoppingBag, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import ReactMarkdown from "react-markdown";
 import { useStore } from "@/lib/store";
 import { apiPost } from "@/lib/api";
 import { formatNaira } from "@/lib/format";
@@ -163,7 +164,30 @@ export function AIChatWidget() {
                           : "border border-border bg-card text-foreground"
                       }`}
                     >
-                      {m.content}
+                      {m.role === "assistant" ? (
+                        <div className="rafi-markdown">
+                          <ReactMarkdown
+                            components={{
+                              p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                              strong: ({ children }) => <strong className="font-bold text-foreground">{children}</strong>,
+                              ul: ({ children }) => <ul className="mb-2 list-disc pl-4 space-y-0.5">{children}</ul>,
+                              ol: ({ children }) => <ol className="mb-2 list-decimal pl-4 space-y-0.5">{children}</ol>,
+                              li: ({ children }) => <li>{children}</li>,
+                              h1: ({ children }) => <h3 className="mb-1 text-base font-bold">{children}</h3>,
+                              h2: ({ children }) => <h3 className="mb-1 text-base font-bold">{children}</h3>,
+                              h3: ({ children }) => <h3 className="mb-1 text-sm font-bold">{children}</h3>,
+                              code: ({ children }) => <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">{children}</code>,
+                              pre: ({ children }) => <pre className="mb-2 overflow-x-auto rounded-lg bg-muted p-2 text-xs">{children}</pre>,
+                              a: ({ children }) => <span className="text-primary underline">{children}</span>,
+                              blockquote: ({ children }) => <blockquote className="border-l-2 border-primary pl-2 text-muted-foreground">{children}</blockquote>,
+                            }}
+                          >
+                            {m.content}
+                          </ReactMarkdown>
+                        </div>
+                      ) : (
+                        m.content
+                      )}
                     </div>
                     {m.products && m.products.length > 0 && (
                       <div className="mt-2 space-y-2">

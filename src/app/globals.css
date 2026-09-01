@@ -59,10 +59,10 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.20 0.02 180);
 
-  /* PRIMARY — Deep Teal (#0F3D3E) — solid, professional */
-  --primary: oklch(0.35 0.06 180);
+  /* PRIMARY — Sharp Deep Teal (#0A6E6F) — vibrant, professional */
+  --primary: oklch(0.45 0.09 180);
   --primary-foreground: oklch(0.99 0 0);
-  --brand: oklch(0.35 0.06 180);
+  --brand: oklch(0.45 0.09 180);
   --brand-foreground: oklch(0.99 0 0);
 
   /* DEAL/FLASH — Burnt Orange (#CC5500) — energetic, solid */
@@ -86,10 +86,10 @@
   /* Borders — subtle teal-gray */
   --border: oklch(0.90 0.006 180);
   --input: oklch(0.90 0.006 180);
-  --ring: oklch(0.35 0.06 180);
+  --ring: oklch(0.45 0.09 180);
 
   /* Chart colors */
-  --chart-1: oklch(0.35 0.06 180);
+  --chart-1: oklch(0.45 0.09 180);
   --chart-2: oklch(0.82 0.14 85);
   --chart-3: oklch(0.62 0.12 160);
   --chart-4: oklch(0.55 0.16 45);
@@ -98,12 +98,12 @@
   /* Sidebar */
   --sidebar: oklch(0.97 0.005 180);
   --sidebar-foreground: oklch(0.20 0.02 180);
-  --sidebar-primary: oklch(0.35 0.06 180);
+  --sidebar-primary: oklch(0.45 0.09 180);
   --sidebar-primary-foreground: oklch(0.99 0 0);
   --sidebar-accent: oklch(0.92 0.01 180);
   --sidebar-accent-foreground: oklch(0.25 0.03 180);
   --sidebar-border: oklch(0.90 0.006 180);
-  --sidebar-ring: oklch(0.35 0.06 180);
+  --sidebar-ring: oklch(0.45 0.09 180);
 }
 
 .dark {
@@ -162,12 +162,12 @@
 
 /* Primary solid teal — used everywhere brand-gradient was used before */
 @utility brand-gradient {
-  background-color: oklch(0.35 0.06 180);
+  background-color: oklch(0.45 0.09 180);
 }
 
 /* Solid teal text — replaces gradient text */
 @utility brand-gradient-text {
-  color: oklch(0.35 0.06 180);
+  color: oklch(0.45 0.09 180);
 }
 
 /* Deal/flash sale — solid burnt orange */
