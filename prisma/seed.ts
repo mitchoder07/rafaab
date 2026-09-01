@@ -961,7 +961,7 @@ async function main() {
     const images = imgs(p.imageQuery, p.fallbackSeed);
     const flashEnd =
       p.flags.flashSale && p.discountPrice
-        ? new Date(now + (1 + Math.floor(Math.random() * 11)) * 3600 * 1000) // 1-12h from now
+        ? new Date(now + (12 + Math.floor(Math.random() * 36)) * 3600 * 1000) // 12-48h from now
         : null;
 
     const product = await db.product.create({

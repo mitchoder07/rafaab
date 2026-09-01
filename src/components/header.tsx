@@ -17,6 +17,8 @@ import {
   LayoutDashboard,
   Truck,
   Store,
+  Gift,
+  Sparkles,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useStore } from "@/lib/store";
@@ -28,11 +30,11 @@ import { getCategoryIcon } from "./category-icons";
 import type { Category } from "@/lib/types";
 
 const DEAL_MESSAGES = [
-  "🔥 Mega Flash Sale — up to 60% off, ends today!",
-  "🚚 Free delivery on orders over ₦50,000",
-  "🎁 Use code RAFAAB10 for 10% off your first order",
-  "⚡ New arrivals every week — shop the latest drops",
-  "💬 Meet Rafi — your AI shopping assistant, bottom right",
+  { icon: Zap, text: "Mega Flash Sale — up to 60% off, ends today!" },
+  { icon: Truck, text: "Free delivery on orders over ₦50,000" },
+  { icon: Gift, text: "Use code RAFAAB10 for 10% off your first order" },
+  { icon: Sparkles, text: "New arrivals every week — shop the latest drops" },
+  { icon: Bot, text: "Meet Rafi — your AI assistant, bottom right" },
 ];
 
 export function Header({ categories }: { categories: Category[] }) {
@@ -96,11 +98,15 @@ export function Header({ categories }: { categories: Category[] }) {
       {/* Announcement marquee */}
       <div className="overflow-hidden brand-gradient text-white">
         <div className="flex w-max animate-marquee whitespace-nowrap py-1.5 text-xs font-medium">
-          {[...DEAL_MESSAGES, ...DEAL_MESSAGES].map((m, i) => (
-            <span key={i} className="mx-6 inline-flex items-center">
-              {m}
-            </span>
-          ))}
+          {[...DEAL_MESSAGES, ...DEAL_MESSAGES].map((m, i) => {
+            const Icon = m.icon;
+            return (
+              <span key={i} className="mx-6 inline-flex items-center gap-1.5">
+                <Icon width={13} height={13} className="shrink-0" />
+                {m.text}
+              </span>
+            );
+          })}
         </div>
       </div>
 

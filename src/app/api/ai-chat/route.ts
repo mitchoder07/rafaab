@@ -29,9 +29,13 @@ async function callLLM(messages: ChatMessage[]): Promise<string> {
     });
     if (!res.ok) {
       const errText = await res.text();
-      // If model not found, try to provide a helpful message
+      // 401 = invalid API key
+      if (res.status === 401) {
+        throw new Error("INVALID_API_KEY");
+      }
+      // 404 = model not found
       if (res.status === 404 && errText.includes("does not exist")) {
-        throw new Error(`Model "${model}" not found. Check https://console.groq.com/docs/models for valid model names. Try: llama-3.1-8b-instant or llama-3.3-70b-versatile`);
+        throw new Error(`Model "${model}" not found. Set AI_MODEL=llama-3.1-8b-instant in your .env file. Check https://console.groq.com/docs/models for valid names.`);
       }
       throw new Error(`API returned ${res.status}: ${errText.slice(0, 200)}`);
     }
@@ -163,10 +167,18 @@ ${catalogLines}
   } catch (err) {
     const errMsg = err instanceof Error ? err.message : String(err);
 
-    // If no LLM is configured, provide a helpful setup message
+    // Invalid API key — give clear instructions
+    if (errMsg === "INVALID_API_KEY") {
+      return NextResponse.json({
+        reply: "Your AI API key is invalid or expired. Here's how to fix it:\n\n1. Go to https://console.groq.com/keys\n2. Create a NEW API key (your old one may have expired)\n3. Copy the new key (starts with gsk_)\n4. Open your .env file and replace the old key:\n\nOPENAI_API_KEY=gsk_your_new_key_here\nOPENAI_BASE_URL=https://api.groq.com/openai/v1\nAI_MODEL=llama-3.1-8b-instant\n\n5. Save the file and restart your server (bun run dev)\n\nIf on Vercel: also update the OPENAI_API_KEY in Settings > Environment Variables, then redeploy.",
+        recommended: [],
+      }, { status: 200 });
+    }
+
+    // No LLM configured
     if (errMsg === "NO_LLM_CONFIGURED" || errMsg.includes("Configuration file not found")) {
       return NextResponse.json({
-        reply: "Hi! I'm Rafi, your AI assistant. 🤖\n\nTo enable me, you need to add an AI API key to your environment:\n\n**Option 1 — OpenAI (recommended):**\n1. Get a key from https://platform.openai.com/api-keys\n2. Add to your `.env` file:\n```\nOPENAI_API_KEY=sk-your-key-here\n```\n\n**Option 2 — Groq (free):**\n1. Get a free key from https://console.groq.com/keys\n2. Add to your `.env` file:\n```\nOPENAI_API_KEY=gsk_your-key-here\nOPENAI_BASE_URL=https://api.groq.com/openai/v1\nAI_MODEL=llama-3.3-70b-versatile\n```\n\nAfter adding the key, restart the server and try again!",
+        reply: "Hi! I'm Rafi, your AI assistant.\n\nTo enable me, add a FREE Groq API key to your .env file:\n\n1. Go to https://console.groq.com/keys\n2. Create a free key\n3. Add these 3 lines to your .env:\n\nOPENAI_API_KEY=gsk_your_key_here\nOPENAI_BASE_URL=https://api.groq.com/openai/v1\nAI_MODEL=llama-3.1-8b-instant\n\n4. Restart your server and try again!",
         recommended: [],
       }, { status: 200 });
     }

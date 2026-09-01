@@ -15,4 +15,3 @@ export function isFlashActive(product: { isFlashSale: boolean; flashSaleEndsAt: 
   if (!product.isFlashSale || !product.flashSaleEndsAt) return false;
   return new Date(product.flashSaleEndsAt).getTime() > Date.now();
 }
-
