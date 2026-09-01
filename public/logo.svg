@@ -1,53 +1,27 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
   <defs>
-    <linearGradient id="rafaabGold" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F59E0B"/>
-      <stop offset="50%" stop-color="#F97316"/>
-      <stop offset="100%" stop-color="#FB923C"/>
-    </linearGradient>
-    <linearGradient id="rafaabGoldDark" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#B45309"/>
-      <stop offset="100%" stop-color="#EA580C"/>
-    </linearGradient>
     <style>
-      .rafaab-breathe {
-        animation: rafaab-breathe 3s ease-in-out infinite;
-        transform-origin: center;
-      }
-      @keyframes rafaab-breathe {
-        0%, 100% { opacity: 0.85; }
-        50% { opacity: 1; }
-      }
+      .rafaab-breathe { animation: rafaab-breathe 3s ease-in-out infinite; transform-origin: center; }
+      @keyframes rafaab-breathe { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
     </style>
   </defs>
-
-  <!-- Gold amulet disc background -->
+  <!-- Deep teal amulet disc -->
   <g class="rafaab-breathe">
-    <circle cx="40" cy="40" r="38" fill="url(#rafaabGold)"/>
-    <circle cx="40" cy="40" r="37" fill="none" stroke="url(#rafaabGoldDark)" stroke-width="1.5"/>
-    <circle cx="40" cy="40" r="33" fill="none" stroke="url(#rafaabGoldDark)" stroke-width="0.8" opacity="0.5"/>
+    <circle cx="40" cy="40" r="38" fill="#0F3D3E"/>
+    <circle cx="40" cy="40" r="37" fill="none" stroke="#0A2E2F" stroke-width="1.5"/>
+    <circle cx="40" cy="40" r="33" fill="none" stroke="#0A2E2F" stroke-width="0.8" opacity="0.5"/>
   </g>
-
-  <!-- RAFAAB letters as bold text (woven amulet feel) -->
-  <g class="rafaab-breathe">
-    <!-- Decorative top/bottom dots (Moroccan amulet style) -->
-    <circle cx="40" cy="11" r="1.5" fill="#FFFFFF" opacity="0.8"/>
-    <circle cx="40" cy="69" r="1.5" fill="#FFFFFF" opacity="0.8"/>
-  </g>
-
-  <!-- The letters RAFAAB in a bold, continuous style -->
+  <!-- Gold decorative dots -->
+  <circle cx="40" cy="11" r="1.5" fill="#F4C430" opacity="0.9"/>
+  <circle cx="40" cy="69" r="1.5" fill="#F4C430" opacity="0.9"/>
+  <!-- RAFAAB text -->
   <text x="40" y="38" text-anchor="middle" font-family="Georgia, serif" font-size="14" font-weight="900" fill="#FFFFFF" letter-spacing="-0.5">RAFAAB</text>
-
-  <!-- Horizontal locking bar (the F concept) across the middle -->
-  <rect x="14" y="42" width="52" height="1.5" fill="#FFFFFF" opacity="0.7"/>
-
-  <!-- Shopping trolley (clear, bold) in the center -->
+  <!-- Gold locking bar -->
+  <rect x="14" y="42" width="52" height="1.5" fill="#F4C430" opacity="0.8"/>
+  <!-- Shopping trolley in white -->
   <g fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <!-- Trolley handle -->
     <path d="M28 47 L30 47 L32 56"/>
-    <!-- Trolley basket -->
     <path d="M31 50 L48 50 L46 58 L33 58 Z" fill="#FFFFFF" fill-opacity="0.15"/>
-    <!-- Trolley wheels -->
   </g>
   <circle cx="35" cy="61" r="1.6" fill="#FFFFFF"/>
   <circle cx="44" cy="61" r="1.6" fill="#FFFFFF"/>

@@ -29,8 +29,8 @@ async function callLLM(messages: ChatMessage[]): Promise<string> {
     });
     if (!res.ok) {
       const errText = await res.text();
-      // 401 = invalid API key
-      if (res.status === 401) {
+      // 401 or 403 = invalid/blocked API key
+      if (res.status === 401 || res.status === 403) {
         throw new Error("INVALID_API_KEY");
       }
       // 404 = model not found
