@@ -16,11 +16,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Rafaab; Shop Smarter, Live Better",
+  title: "Rafaab - Shop Smarter, Live Better",
   description:
-    "Rafaab is the premium marketplace for electronics, fashion, home, beauty and more. Flash sales, AI shopping assistant, fast delivery and unbeatable prices.",
-  keywords: ["Rafaab", "online shopping", "marketplace", "electronics", "fashion", "Nigeria", "ecommerce"],
+    "Rafaab is Nigeria's premium marketplace for electronics, fashion, home, beauty and more. Flash sales, AI shopping assistant, fast delivery and unbeatable prices.",
+  keywords: ["Rafaab", "online shopping", "marketplace", "electronics", "fashion", "Nigeria", "ecommerce", "online store", "buy online"],
   authors: [{ name: "Rafaab" }],
+  creator: "Rafaab",
+  publisher: "Rafaab",
+  metadataBase: new URL("https://rafaab.vercel.app"),
   icons: {
     icon: [
       { url: "/logo-light.svg", type: "image/svg+xml", media: "(prefers-color-scheme: light)" },
@@ -30,17 +33,28 @@ export const metadata: Metadata = {
     apple: "/logo-light.svg",
   },
   openGraph: {
-    title: "Rafaab; Shop Smarter, Live Better",
-    description: "Premium marketplace with AI shopping assistant, flash sales and fast delivery.",
+    title: "Rafaab - Shop Smarter, Live Better",
+    description: "Nigeria's premium marketplace with AI shopping assistant, flash sales, and fast delivery. Shop electronics, fashion, home, beauty and more.",
     siteName: "Rafaab",
     type: "website",
-    images: ["/logo.svg"],
+    locale: "en_US",
+    url: "https://rafaab.vercel.app",
   },
   twitter: {
-    card: "summary",
-    title: "Rafaab; Shop Smarter, Live Better",
-    description: "Premium marketplace with AI shopping assistant, flash sales and fast delivery.",
-    images: ["/logo.svg"],
+    card: "summary_large_image",
+    title: "Rafaab - Shop Smarter, Live Better",
+    description: "Nigeria's premium marketplace with AI assistant, flash sales, and fast delivery.",
+    creator: "@rafaab",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
