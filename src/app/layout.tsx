@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Rafaab — Shop Smarter, Live Better",
+  title: "Rafaab; Shop Smarter, Live Better",
   description:
     "Rafaab is the premium marketplace for electronics, fashion, home, beauty and more. Flash sales, AI shopping assistant, fast delivery and unbeatable prices.",
   keywords: ["Rafaab", "online shopping", "marketplace", "electronics", "fashion", "Nigeria", "ecommerce"],
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     apple: "/logo-light.svg",
   },
   openGraph: {
-    title: "Rafaab — Shop Smarter, Live Better",
+    title: "Rafaab; Shop Smarter, Live Better",
     description: "Premium marketplace with AI shopping assistant, flash sales and fast delivery.",
     siteName: "Rafaab",
     type: "website",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: "Rafaab — Shop Smarter, Live Better",
+    title: "Rafaab; Shop Smarter, Live Better",
     description: "Premium marketplace with AI shopping assistant, flash sales and fast delivery.",
     images: ["/logo.svg"],
   },
