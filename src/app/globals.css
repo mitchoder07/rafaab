@@ -49,41 +49,41 @@
 :root {
   --radius: 0.75rem;
 
-  /* Background — clean white */
+  /* Background: clean white */
   --background: oklch(0.99 0.003 180);
   --foreground: oklch(0.20 0.02 180);
 
-  /* Cards — pure white */
+  /* Cards: pure white */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.20 0.02 180);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.20 0.02 180);
 
-  /* PRIMARY — Sharp Deep Teal (#0A6E6F) — vibrant, professional */
+  /* PRIMARY: Sharp Deep Teal (#0A6E6F): vibrant, professional */
   --primary: oklch(0.45 0.09 180);
   --primary-foreground: oklch(0.99 0 0);
   --brand: oklch(0.45 0.09 180);
   --brand-foreground: oklch(0.99 0 0);
 
-  /* DEAL/FLASH — Burnt Orange (#CC5500) — energetic, solid */
+  /* DEAL/FLASH: Burnt Orange (#CC5500): energetic, solid */
   --deal: oklch(0.55 0.16 45);
 
-  /* Secondary — light teal tint */
+  /* Secondary: light teal tint */
   --secondary: oklch(0.95 0.01 180);
   --secondary-foreground: oklch(0.25 0.03 180);
 
-  /* Muted — very light teal-gray */
+  /* Muted: very light teal-gray */
   --muted: oklch(0.96 0.006 180);
   --muted-foreground: oklch(0.50 0.02 180);
 
-  /* Accent — gold (#F4C430) for highlights, CTAs */
+  /* Accent: gold (#F4C430) for highlights, CTAs */
   --accent: oklch(0.82 0.14 85);
   --accent-foreground: oklch(0.25 0.04 85);
 
-  /* Destructive — red */
+  /* Destructive: red */
   --destructive: oklch(0.55 0.22 27);
 
-  /* Borders — subtle teal-gray */
+  /* Borders: subtle teal-gray */
   --border: oklch(0.90 0.006 180);
   --input: oklch(0.90 0.006 180);
   --ring: oklch(0.45 0.09 180);
@@ -107,7 +107,7 @@
 }
 
 .dark {
-  /* Dark mode — deep teal-black */
+  /* Dark mode: deep teal-black */
   --background: oklch(0.15 0.02 180);
   --foreground: oklch(0.95 0.01 180);
   --card: oklch(0.20 0.02 180);
@@ -158,19 +158,19 @@
   }
 }
 
-/* ===== Rafaab utility classes — SOLID colors, minimal gradients ===== */
+/* ===== Rafaab utility classes: SOLID colors, minimal gradients ===== */
 
-/* Primary solid teal — used everywhere brand-gradient was used before */
+/* Primary solid teal: used everywhere brand-gradient was used before */
 @utility brand-gradient {
   background-color: oklch(0.45 0.09 180);
 }
 
-/* Solid teal text — replaces gradient text */
+/* Solid teal text: replaces gradient text */
 @utility brand-gradient-text {
   color: oklch(0.45 0.09 180);
 }
 
-/* Deal/flash sale — solid burnt orange */
+/* Deal/flash sale: solid burnt orange */
 @utility deal-gradient {
   background-color: oklch(0.55 0.16 45);
 }
