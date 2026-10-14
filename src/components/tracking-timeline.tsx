@@ -53,7 +53,7 @@ export function TrackingTimeline({
             <div key={step.key} className="flex">
               {/* Icon + connector column */}
               <div className="flex flex-col items-center self-stretch">
-                {/* Icon circle — solid background so NO line shows through */}
+                {/* Icon circle - solid background so NO line shows through */}
                 <div
                   className={cn(
                     "relative z-10 grid h-8 w-8 shrink-0 place-items-center rounded-full border-2",

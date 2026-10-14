@@ -30,11 +30,11 @@ import { getCategoryIcon } from "./category-icons";
 import type { Category } from "@/lib/types";
 
 const DEAL_MESSAGES = [
-  { icon: Zap, text: "Mega Flash Sale — up to 60% off, ends today!" },
+  { icon: Zap, text: "Mega Flash Sale - up to 60% off, ends today!" },
   { icon: Truck, text: "Free delivery on orders over ₦50,000" },
   { icon: Gift, text: "Use code RAFAAB10 for 10% off your first order" },
-  { icon: Sparkles, text: "New arrivals every week — shop the latest drops" },
-  { icon: Bot, text: "Meet Rafi — your AI assistant, bottom right" },
+  { icon: Sparkles, text: "New arrivals every week - shop the latest drops" },
+  { icon: Bot, text: "Meet Rafi - your AI assistant, bottom right" },
 ];
 
 export function Header({ categories }: { categories: Category[] }) {

@@ -138,7 +138,7 @@ export function AIChatWidget() {
                   </span>
                   <h3 className="text-lg font-bold">Hi, I'm Rafi</h3>
                   <p className="mt-1 max-w-[290px] text-sm text-muted-foreground">
-                    Your AI assistant for anything — shopping advice, general knowledge, tech help, business tips, and more. Ask me anything!
+                    Your AI assistant for anything - shopping advice, general knowledge, tech help, business tips, and more. Ask me anything!
                   </p>
                   <div className="mt-4 w-full space-y-2">
                     {SUGGESTIONS.map((s) => (
