@@ -1,9 +1,9 @@
-Rafaab: Shop Smarter, Live Better 🛒
+# Rafaab: Shop Smarter, Live Better 🛒
 Rafaab is a premium, full-stack e-commerce marketplace designed to give Nigerians a smarter, faster, and more enjoyable shopping experience.
 
 Built from scratch, Rafaab isn't just a store. It's a multi-vendor platform that combines the best ideas from major marketplaces and elevates them with AI, real-time tracking, and a seamless seller dashboard.
 
-🚀 Key Features
+# 🚀 Key Features
 🤖 AI-Powered Shopping Assistant (Rafi): A built-in AI assistant (powered by Gemini 2.0 Flash) that doesn't just help you find products. It answers ANY question, from product recommendations to coding advice. It's like having ChatGPT integrated directly into the shopping experience.
 
 🏪 Multi-Seller Marketplace: Anyone can become a seller. Sellers get a dedicated dashboard to manage products, track orders, monitor earnings, and request payouts. Admins have a central panel to approve applications, set commission rates, and manage the platform.
@@ -16,7 +16,7 @@ Built from scratch, Rafaab isn't just a store. It's a multi-vendor platform that
 
 🌗 Dark/Light Mode & Fully Responsive: A polished, modern UI built with Tailwind CSS and Framer Motion, ensuring a flawless experience on both mobile and desktop.
 
-🛠 Tech Stack
+# 🛠 Tech Stack
 Frontend:
 
 Next.js 16 (App Router)
@@ -41,17 +41,17 @@ Prisma ORM
 
 PostgreSQL (hosted on Neon)
 
-AI & Integrations:
+# AI & Integrations:
 
 Gemini 2.0 Flash (via OpenAI-compatible API)
 
 Paystack (Payments)
 
-Deployment:
+# Deployment:
 
 Vercel
 
-📂 Project Structure
+# 📂 Project Structure
 text
 ├── app/                  # Next.js App Router (Pages & API Routes)
 │   ├── (auth)/           # Authentication routes
@@ -76,7 +76,7 @@ Gemini API Key
 Installation
 Clone the repository:
 
-bash
+# bash
 git clone https://github.com/mitchoder07/rafaab.git
 cd rafaab
 Install dependencies:
@@ -106,20 +106,20 @@ Open http://localhost:3000 in your browser.
 🔐 Demo Accounts
 To test the platform without creating a new account, use these credentials:
 
-Role	Email	Password
+# Role	Email	Password
 Customer	demo@rafaab.com	demo1234
 Seller	seller1@rafaab.com	seller1234
 Admin	admin@rafaab.com	admin1234
-🌍 Live Demo:
+# 🌍 Live Demo:
 Check out the live deployment here: https://rafaab.vercel.app
 
-🤝 Contributing:
+# 🤝 Contributing:
 Contributions, issues, and feature requests are welcome! Feel free to check the issues page if you want to contribute.
 
-📝 License:
+# 📝 License:
 This project is licensed under the MIT License.
 
-🤖 Built by Abdullah Yusuf (Upin)
+# 🤖 Built by Abdullah Yusuf (Upin)
 Frontend Engineer & UI/UX Designer
 
 Portfolio: https://up1n-portfolio.vercel.app
