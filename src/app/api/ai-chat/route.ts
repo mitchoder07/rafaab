@@ -7,6 +7,41 @@ export const maxDuration = 60;
 
 type ChatMessage = { role: string; content: string };
 
+// Post-process AI responses to fix markdown formatting issues
+function fixMarkdown(text: string): string {
+  let result = text;
+
+  // 1. Fix inline headings: "some text. ## Heading" -> "some text.\n\n## Heading"
+  // Don't match when the preceding char is itself a # (avoids splitting ## into #\n\n#)
+  result = result.replace(/([^#\n])\s+(#{1,3}\s)/g, "$1\n\n$2");
+
+  // 2. Fix "text) ## Heading" -> "text)\n\n## Heading"
+  result = result.replace(/(\))\s+(#{1,3}\s)/g, "$1\n\n$2");
+
+  // 3. Fix "- text. ##" -> "- text.\n\n##"
+  result = result.replace(/(-\s[^#\n]+?)\.\s+(#{1,3}\s)/g, "$1.\n\n$2");
+
+  // 4. Ensure blank line before any heading that starts a line (but not at start of text)
+  result = result.replace(/([^\n#\s])\n(#{1,3}\s)/g, "$1\n\n$2");
+
+  // 5. Fix multiple headings on same line: "## A text ## B" -> "## A text\n\n## B"
+  result = result.replace(/(#{1,3}\s[^\n#]+?)\s\s+(#{1,3}\s)/g, "$1\n\n$2");
+
+  // 6. Fix jammed bullet items: "- A - B" -> "- A\n- B" (but not ranges like "1-2")
+  result = result.replace(/(-\s[^\n-]+?)\s+(-\s[A-Z])/g, "$1\n$2");
+
+  // 7. Remove em dashes and en dashes
+  result = result.replace(/—/g, " - ").replace(/–/g, " - ");
+
+  // 8. Clean up excessive blank lines (max 2)
+  result = result.replace(/\n{3,}/g, "\n\n");
+
+  // 9. Trim trailing whitespace per line
+  result = result.split("\n").map((line) => line.trimEnd()).join("\n");
+
+  return result.trim();
+}
+
 async function callLLM(messages: ChatMessage[]): Promise<string> {
   const apiKey = process.env.OPENAI_API_KEY || process.env.AI_API_KEY;
   const baseUrl = process.env.OPENAI_BASE_URL || process.env.AI_BASE_URL || "https://api.openai.com/v1";
@@ -23,7 +58,7 @@ async function callLLM(messages: ChatMessage[]): Promise<string> {
       body: JSON.stringify({
         model,
         messages,
-        max_tokens: 1000,
+        max_tokens: 4000,
         temperature: 0.7,
       }),
     });
@@ -137,9 +172,11 @@ Only recommend products from the catalog below — never invent products or IDs.
 - Use Nigerian English context when relevant (Naira pricing, local references)
 - When you don't know something, say so honestly rather than making things up
 - For code/technical questions, you can include code snippets
-- DO NOT use em dashes (—) or en dashes (–). Use regular hyphens (-) or commas instead
-- Use markdown for formatting: **bold** for emphasis, bullet lists with - for items, # for headings
-- Keep formatting clean and readable. Avoid excessive markdown symbols
+- DO NOT use em dashes or en dashes. Use regular hyphens (-) or commas instead
+- Use markdown formatting: **bold** for emphasis, - for bullet lists, ## for section headings
+- ALWAYS put ## headings on their OWN LINE with a blank line before and after
+- NEVER put # or ## inline with other text on the same line
+- Make sure your response is complete and never cuts off mid-sentence
 
 === Rafaab Product Catalog ===
 ${catalogLines}
@@ -156,7 +193,10 @@ ${catalogLines}
   messages.push({ role: "user", content: message });
 
   try {
-    const reply = await callLLM(messages);
+    const rawReply = await callLLM(messages);
+
+    // Post-process the markdown to fix formatting issues
+    const reply = fixMarkdown(rawReply);
 
     // Extract referenced product IDs and attach the full product objects so the UI can render chips
     const idMatches = [...reply.matchAll(/\[P:([^\]]+)\]/g)].map((m) => m[1].trim());
@@ -164,7 +204,7 @@ ${catalogLines}
     const recommended = serialized.filter((p) => uniqueIds.includes(p.id)).slice(0, 4);
 
     // Strip the [P:...] markers from the displayed reply for clean text
-    const cleanReply = reply.replace(/\[P:[^\]]+\]/g, "").replace(/\s{2,}/g, " ").trim();
+    const cleanReply = reply.replace(/\[P:[^\]]+\]/g, "").trim();
 
     return NextResponse.json({ reply: cleanReply, recommended });
   } catch (err) {
