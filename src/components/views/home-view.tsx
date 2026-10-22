@@ -120,7 +120,7 @@ export function HomeView({ categories }: { categories: Category[] }) {
                       Shop Smarter,<br />Live Better
                     </h1>
                     <p className="mt-2 max-w-sm text-sm text-white/90 sm:text-base">
-                      Premium products, AI-powered shopping, flash deals and fast delivery — all in one place.
+                      Premium products, AI-powered shopping, flash deals and fast delivery, all in one place.
                     </p>
                     <div className="mt-5 flex flex-wrap gap-2">
                       <button
